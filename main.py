@@ -1,9 +1,11 @@
+from kivy.app import App
+from kivy.uix.button import Button
 
-
-
-def print_hi(name):
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 if __name__ == '__main__':
-    print_hi('lorem ipsum dolor sit amet vagy mi')
+
+    class TestApp(App):
+        def build(self):
+            return Button(text='Hello World')
+    TestApp().run()
 
