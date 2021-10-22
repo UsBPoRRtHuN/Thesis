@@ -10,7 +10,7 @@
     size: [100, 20]
 
 <DataTextInput@TextInput>:
-    font_size: 12
+    font_size: 10
     size: [60,20]
     multiline: False
     disabled: False
@@ -39,7 +39,7 @@
                 focus_next: LevelsTextInput
             on_focus: self.text = ""
         DataTextInput:
-            text: "No of levels..."
+            text: "No of max levels..."
             id: LevelsTextInput
             on_text_validate: app.process()
             on_focus: self.text = ""

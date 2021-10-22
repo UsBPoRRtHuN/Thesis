@@ -3,8 +3,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.lang import Builder
 
+
 class Window(GridLayout):
     pass
+
 
 class WindowApp(App):
     def build(self):
@@ -13,17 +15,18 @@ class WindowApp(App):
     def process(self):
         text = self.root.ids.BaseAreaTextInput.text
         text2 = self.root.ids.LevelsTextInput.text
-        print(text)
-        print(text2)
-    def show (self):
+
+    def show(self):
         self.root.ids.BaseAreaTextInput.opacity = 1
         self.root.ids.LevelsTextInput.opacity = 1
-    def hide (self):
+
+    def hide(self):
         self.root.ids.BaseAreaTextInput.opacity = 0
         self.root.ids.LevelsTextInput.opacity = 0
+
     def clearText(self):
-        self.root.ids.BaseAreaTextInput.text =""
+        self.root.ids.BaseAreaTextInput.text = ""
+
 
 def create_window():
     WindowApp().run()
-
