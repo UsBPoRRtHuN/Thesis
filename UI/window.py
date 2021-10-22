@@ -11,8 +11,10 @@ class WindowApp(App):
         return Window()
 
     def process(self):
-        text = self.root.ids.textinp.text
+        text = self.root.ids.BaseAreaTextInput.text
+        text2 = self.root.ids.LevelsTextInput.text
         print(text)
+        print(text2)
 
 
 

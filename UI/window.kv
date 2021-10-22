@@ -1,0 +1,40 @@
+#:kivy 1.0.9
+#:import Factory kivy.factory.Factory
+
+<MyButton@Button>:
+    size_hint: [None, None]
+    size: [100, 20]
+
+<MyToggleButton@ToggleButton>:
+    size_hint: [None, None]
+    size: [100, 20]
+
+<Window>:
+    BoxLayout:
+        top: root.top
+        orientation: 'vertical'
+        MyToggleButton:
+            text: 'Options...'
+        TextInput:
+            size: [60,20]
+            id: BaseAreaTextInput
+            multiline: False
+            disabled: False
+            opacity: 1
+            cursor_blink: 1
+            input_filter: 'int'
+            on_text: app.process()
+        TextInput:
+            size: [60,20]
+            id: LevelsTextInput
+            multiline: False
+            disabled: False
+            opacity: 1
+            cursor_blink: 1
+            input_filter: 'int'
+            on_text: app.process()
+    MyButton:
+        top:root.top
+        x: root.x + 100
+        text: "Exit..."
+        on_release: app.stop()
