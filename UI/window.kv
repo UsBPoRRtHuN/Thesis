@@ -9,6 +9,17 @@
     size_hint: [None, None]
     size: [100, 20]
 
+<DataTextInput@TextInput>:
+    font_size: 12
+    size: [60,20]
+    multiline: False
+    disabled: False
+    cursor_blink: 1
+    opacity: 0
+    input_filter: 'int'
+    on_text_validate: app.process()
+    on_focus: self.text = ""
+
 <Window>:
     BoxLayout:
         top: root.top
@@ -21,31 +32,24 @@
                 app.show()
                 if self.state == "normal": \
                 app.hide()
-        TextInput:
-            font_size: 12
+        DataTextInput:
             text: 'Enter the area...'
-            size: [60,20]
             id: BaseAreaTextInput
-            multiline: False
-            disabled: False
-            opacity: 1
-            cursor_blink: 1
-            opacity: 0
-            input_filter: 'int'
             on_text_validate: app.process()
-        TextInput:
-            font_size: 12
+                focus_next: LevelsTextInput
+            on_focus: self.text = ""
+        DataTextInput:
             text: "No of levels..."
-            size: [60,20]
             id: LevelsTextInput
-            multiline: False
-            disabled: False
-            opacity: 0
-            cursor_blink: 1
-            input_filter: 'int'
             on_text_validate: app.process()
+            on_focus: self.text = ""
     MyButton:
         top:root.top
         x: root.x + 100
         text: "Exit..."
         on_release: app.stop()
+    Label:
+        top:root.top
+        x: root.x+340
+        text: "Generator Test Software"
+        font_size: 25

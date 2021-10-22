@@ -21,6 +21,8 @@ class WindowApp(App):
     def hide (self):
         self.root.ids.BaseAreaTextInput.opacity = 0
         self.root.ids.LevelsTextInput.opacity = 0
+    def clearText(self):
+        self.root.ids.BaseAreaTextInput.text =""
 
 def create_window():
     WindowApp().run()
