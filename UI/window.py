@@ -15,8 +15,12 @@ class WindowApp(App):
         text2 = self.root.ids.LevelsTextInput.text
         print(text)
         print(text2)
-
-
+    def show (self):
+        self.root.ids.BaseAreaTextInput.opacity = 1
+        self.root.ids.LevelsTextInput.opacity = 1
+    def hide (self):
+        self.root.ids.BaseAreaTextInput.opacity = 0
+        self.root.ids.LevelsTextInput.opacity = 0
 
 def create_window():
     WindowApp().run()

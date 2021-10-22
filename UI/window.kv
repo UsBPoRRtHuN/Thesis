@@ -14,25 +14,36 @@
         top: root.top
         orientation: 'vertical'
         MyToggleButton:
+            id: ToggleButton
             text: 'Options...'
+            on_state:
+                if self.state == "down": \
+                app.show()
+                if self.state == "normal": \
+                app.hide()
         TextInput:
+            font_size: 12
+            text: 'Enter the area...'
             size: [60,20]
             id: BaseAreaTextInput
             multiline: False
             disabled: False
             opacity: 1
             cursor_blink: 1
+            opacity: 0
             input_filter: 'int'
-            on_text: app.process()
+            on_text_validate: app.process()
         TextInput:
+            font_size: 12
+            text: "No of levels..."
             size: [60,20]
             id: LevelsTextInput
             multiline: False
             disabled: False
-            opacity: 1
+            opacity: 0
             cursor_blink: 1
             input_filter: 'int'
-            on_text: app.process()
+            on_text_validate: app.process()
     MyButton:
         top:root.top
         x: root.x + 100
