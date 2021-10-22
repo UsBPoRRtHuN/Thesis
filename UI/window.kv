@@ -18,7 +18,6 @@
     opacity: 0
     input_filter: 'int'
     on_text_validate: app.process()
-    on_focus: self.text = ""
 
 <Window>:
     BoxLayout:
@@ -33,16 +32,11 @@
                 if self.state == "normal": \
                 app.hide()
         DataTextInput:
-            text: 'Enter the area...'
             id: BaseAreaTextInput
             on_text_validate: app.process()
-                focus_next: LevelsTextInput
-            on_focus: self.text = ""
         DataTextInput:
-            text: "No of max levels..."
             id: LevelsTextInput
             on_text_validate: app.process()
-            on_focus: self.text = ""
     MyButton:
         top:root.top
         x: root.x + 100
@@ -53,3 +47,5 @@
         x: root.width/2.3
         text: "Generator Test Software"
         font_size: 25
+    MyButton:
+        on_release: app.print()
