@@ -1,51 +1,68 @@
 #:kivy 1.0.9
-#:import Factory kivy.factory.Factory
-
-<MyButton@Button>:
-    size_hint: [None, None]
-    size: [100, 20]
-
-<MyToggleButton@ToggleButton>:
-    size_hint: [None, None]
-    size: [100, 20]
-
-<DataTextInput@TextInput>:
-    font_size: 10
-    size: [60,20]
-    multiline: False
-    disabled: False
-    cursor_blink: 1
-    opacity: 0
-    input_filter: 'int'
-    on_text_validate: app.process()
+Window:
 
 <Window>:
     BoxLayout:
+        size: root.width, root.height * 0.15
+        orientation: "horizontal"
         top: root.top
-        orientation: 'vertical'
-        MyToggleButton:
-            id: ToggleButton
-            text: 'Options...'
-            on_state:
-                if self.state == "down": \
-                app.show()
-                if self.state == "normal": \
-                app.hide()
-        DataTextInput:
-            id: BaseAreaTextInput
-            on_text_validate: app.process()
-        DataTextInput:
-            id: LevelsTextInput
-            on_text_validate: app.process()
-    MyButton:
-        top:root.top
-        x: root.x + 100
-        text: "Exit..."
-        on_release: app.stop()
-    Label:
-        top:root.top
-        x: root.width/2.3
-        text: "Generator Test Software"
-        font_size: 25
-    MyButton:
-        on_release: app.print()
+        BoxLayout:
+            canvas:
+                Line:
+                    points: (0, root.height-(self.height*1.01), root.width, root.height-(self.height*1.01))
+                    width: 0.5
+            size_hint: 1/3, 1
+            orientation: "vertical"
+            ToggleButton:
+                font_size: 10
+                text: "Options..."
+            TextInput:
+                opacity: 1
+                size_hint: 2, 1
+                hint_text: "Area..."
+            TextInput:
+                opacity: 1
+                font_size: 10
+                size_hint: 2,1
+                hint_text: "Number of levels..."
+        Button:
+            text: "Exit..."
+            font_size: 10
+            size_hint: 1/3, 1/3
+            pos_hint: {"top": 1}
+        Label:
+            size_hint: 1, 1
+            text: "Layout Generator Software"
+    BoxLayout:
+        size: root.width, root.height * 0.15
+        orientation: "horizontal"
+        top: root.top - root.height*0.85
+        canvas:
+            Line:
+                points: (0, root.height-(root.height*0.85), root.width, root.height-(root.height*0.85))
+                width: 0.5
+        Button:
+            text: "<----"
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Current level is:"
+            Label:
+                text: "#"
+        Button:
+            text: "---->"
+    BoxLayout:
+        size: root.width, root.height * 0.1
+        orientation: "horizontal"
+        top: root.top - root.height * 0.16
+        Button:
+            text: "<----"
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Current layout is: "
+            Label:
+                text: "#"
+        Button:
+            text:"---->"
+
