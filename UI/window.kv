@@ -34,12 +34,12 @@ Window:
             size_hint: 1, 1
             text: "Layout Generator Software"
     BoxLayout:
-        size: root.width, root.height * 0.15
+        size: root.width, root.height * 0.1
         orientation: "horizontal"
-        top: root.top - root.height*0.85
+        top: root.top - root.height*0.9
         canvas:
             Line:
-                points: (0, root.height-(root.height*0.85), root.width, root.height-(root.height*0.85))
+                points: (0, root.height-(root.height*0.9), root.width, root.height-(root.height*0.9))
                 width: 0.5
         Button:
             text: "<----"
@@ -54,7 +54,7 @@ Window:
     BoxLayout:
         size: root.width, root.height * 0.1
         orientation: "horizontal"
-        top: root.top - root.height * 0.16
+        top: root.top - root.height * 0.155
         Button:
             text: "<----"
         BoxLayout:
@@ -63,6 +63,18 @@ Window:
                 text: "Current layout is: "
             Label:
                 text: "#"
+            Label:
+                text: "Number of available layouts is:"
+            Label:
+                text:"#"
         Button:
             text:"---->"
+    BoxLayout:
+        size: root.width, root.height * 0.65
+        top: root.top - root.height * 0.25
+        orientation: "horizontal"
+        Button:
+            text: "layout area"
+            background_color: (0.2, 0.5, 0.76, 1.0)
+
 
