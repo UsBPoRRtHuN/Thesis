@@ -1,6 +1,14 @@
 #:kivy 1.0.9
 Window:
 
+<DataTextInput@TextInput>:
+    multiline: False
+    disabled: True
+    cursor_blink: 1
+    opacity: 0
+    input_filter: 'int'
+    font_size: 10
+    size_hint: 2,1
 <Window>:
     BoxLayout:
         size: root.width, root.height * 0.15
@@ -11,25 +19,28 @@ Window:
                 Line:
                     points: (0, root.height-(self.height*1.01), root.width, root.height-(self.height*1.01))
                     width: 0.5
+                Line:
+                    points: (root.width/2.5, (root.height*0.85), root.width/2.5, root.height)
+                    width: 0.5
             size_hint: 1/3, 1
             orientation: "vertical"
             ToggleButton:
                 font_size: 10
                 text: "Options..."
-            TextInput:
-                opacity: 1
-                size_hint: 2, 1
+                on_state: app.optionstogglebutton(self)
+            DataTextInput:
+                id: AreaInput
                 hint_text: "Area..."
-            TextInput:
-                opacity: 1
+            DataTextInput:
+                id: LevelsInput
                 font_size: 10
-                size_hint: 2,1
                 hint_text: "Number of levels..."
         Button:
             text: "Exit..."
             font_size: 10
             size_hint: 1/3, 1/3
             pos_hint: {"top": 1}
+            on_release: app.close()
         Label:
             size_hint: 1, 1
             text: "Layout Generator Software"
@@ -73,8 +84,15 @@ Window:
         size: root.width, root.height * 0.65
         top: root.top - root.height * 0.25
         orientation: "horizontal"
-        Button:
-            text: "layout area"
-            background_color: (0.2, 0.5, 0.76, 1.0)
-
+        PageLayout:
+        #Ide úgy is majd egy generált interface fog kerülni, amit python kódban fogok csinálni
+            Button:
+                text: "layout area"
+                background_color: (0.2, 0.5, 0.76, 1.0)
+            Button:
+                text: "layout area 2"
+                background_color: (0.8, 0.1, 0.6, 1.0)
+            Button:
+                text: "layout area 3"
+                background_color: (0.2, 0.6, 0.1, 1.0)
 
