@@ -9,6 +9,7 @@ Window:
     input_filter: 'int'
     font_size: 10
     size_hint: 2,1
+
 <Window>:
     BoxLayout:
         size: root.width, root.height * 0.15
@@ -31,10 +32,12 @@ Window:
             DataTextInput:
                 id: AreaInput
                 hint_text: "Area..."
+                on_text_validate: app.areavalidate(self)
             DataTextInput:
                 id: LevelsInput
                 font_size: 10
                 hint_text: "Number of levels..."
+                on_text_validate: app.levelsvalidate(self)
         Button:
             text: "Exit..."
             font_size: 10
@@ -42,6 +45,7 @@ Window:
             pos_hint: {"top": 1}
             on_release: app.close()
         Label:
+            font_size: 20
             size_hint: 1, 1
             text: "Layout Generator Software"
     BoxLayout:
@@ -53,6 +57,7 @@ Window:
                 points: (0, root.height-(root.height*0.9), root.width, root.height-(root.height*0.9))
                 width: 0.5
         Button:
+            on_press: app.print()
             text: "<----"
         BoxLayout:
             orientation: "vertical"
@@ -67,6 +72,7 @@ Window:
         orientation: "horizontal"
         top: root.top - root.height * 0.155
         Button:
+            on_press: layoutarea.page -= 1
             text: "<----"
         BoxLayout:
             orientation: "vertical"
@@ -79,12 +85,14 @@ Window:
             Label:
                 text:"#"
         Button:
+            on_press: layoutarea.page += 1
             text:"---->"
     BoxLayout:
         size: root.width, root.height * 0.65
         top: root.top - root.height * 0.25
         orientation: "horizontal"
         PageLayout:
+            id: layoutarea
         #Ide úgy is majd egy generált interface fog kerülni, amit python kódban fogok csinálni
             Button:
                 text: "layout area"
