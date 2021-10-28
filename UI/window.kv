@@ -12,9 +12,9 @@ Window:
 
 <Window>:
     BoxLayout:
+        top: root.top
         size: root.width, root.height * 0.15
         orientation: "horizontal"
-        top: root.top
         BoxLayout:
             canvas:
                 Line:
@@ -57,8 +57,8 @@ Window:
                 points: (0, root.height-(root.height*0.9), root.width, root.height-(root.height*0.9))
                 width: 0.5
         Button:
-            on_press: app.print()
             text: "<----"
+            on_press: app.createLayouts()
         BoxLayout:
             orientation: "vertical"
             Label:
@@ -66,13 +66,14 @@ Window:
             Label:
                 text: "#"
         Button:
+            on_press: app.calculateNoOfLayouts()
             text: "---->"
     BoxLayout:
         size: root.width, root.height * 0.1
         orientation: "horizontal"
         top: root.top - root.height * 0.155
         Button:
-            on_press: layoutarea.page -= 1
+            on_press: app.layoutBack(layoutarea)
             text: "<----"
         BoxLayout:
             orientation: "vertical"
@@ -80,12 +81,14 @@ Window:
                 text: "Current layout is: "
             Label:
                 text: "#"
+                id: currentLayoutLabel
             Label:
-                text: "Number of available layouts is:"
+                text: "Number of available layouts :"
             Label:
-                text:"#"
+                text: "#"
+                id: numberOfLayoutsLabel
         Button:
-            on_press: layoutarea.page += 1
+            on_press: app.layoutForward(layoutarea)
             text:"---->"
     BoxLayout:
         size: root.width, root.height * 0.65
@@ -93,14 +96,13 @@ Window:
         orientation: "horizontal"
         PageLayout:
             id: layoutarea
-        #Ide úgy is majd egy generált interface fog kerülni, amit python kódban fogok csinálni
-            Button:
-                text: "layout area"
-                background_color: (0.2, 0.5, 0.76, 1.0)
-            Button:
-                text: "layout area 2"
-                background_color: (0.8, 0.1, 0.6, 1.0)
-            Button:
-                text: "layout area 3"
-                background_color: (0.2, 0.6, 0.1, 1.0)
+            #Button:
+                #text: "layout area"
+                #background_color: (0.2, 0.5, 0.76, 1.0)
+            #Button:
+                #text: "layout area 2"
+                #background_color: (0.8, 0.1, 0.6, 1.0)
+            #Button:
+                #text: "layout area 3"
+                #background_color: (0.2, 0.6, 0.1, 1.0)
 
