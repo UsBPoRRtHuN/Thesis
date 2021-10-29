@@ -5,6 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.core.window import Window
 import generate
+import parseConfigs
 
 # TODO adatok validálása (max. 20km2, max 20lvl), popup rá
 # TODO multithread?
@@ -63,6 +64,7 @@ class WindowApp(App):
             z.text = str(i + 1)
             self.root.ids.layoutarea.add_widget(z)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+        parseConfigs.parseJson()
         self.noOfLayoutsCurrently += self.noOfLayouts
 
     def layoutBack(self, layoutarea):
