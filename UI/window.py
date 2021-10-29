@@ -1,11 +1,18 @@
+import random
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.core.window import Window
+import generate
+
 # TODO adatok validálása (max. 20km2, max 20lvl), popup rá
 # TODO multithread?
-#
-import generate
+# TODO kezdeti mozgatás megszüntetése
+# TODO Visio diagram!
+# TODO Unit test
+# TODO Futási idő diagram
+
 
 
 class Window(Widget):
@@ -48,9 +55,13 @@ class WindowApp(App):
 
     def createLayouts(self):
         for i in range(int(self.noOfLayouts)):
-            b = Button()
-            b.text = str(i + 1)
-            self.root.ids.layoutarea.add_widget(b)
+            z = Button()
+            r = random.uniform(0,1)
+            g = random.uniform(0,1)
+            b = random.uniform(0,1)
+            z.background_color=(r,g,b,1)
+            z.text = str(i + 1)
+            self.root.ids.layoutarea.add_widget(z)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         self.noOfLayoutsCurrently += self.noOfLayouts
 

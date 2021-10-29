@@ -1,5 +1,5 @@
-import BaseGroup
-from BaseUnit import BaseUnit
+from Model import BaseGroup
+from Model.BaseUnit import BaseUnit
 # default értékek
 
 
