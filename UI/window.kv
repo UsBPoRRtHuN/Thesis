@@ -12,9 +12,9 @@ Window:
 
 <Window>:
     BoxLayout:
-        top: root.top
         size: root.width, root.height * 0.15
         orientation: "horizontal"
+        top: root.top
         BoxLayout:
             canvas:
                 Line:
@@ -58,15 +58,15 @@ Window:
                 width: 0.5
         Button:
             text: "<----"
-            on_press: app.createLayouts()
         BoxLayout:
             orientation: "vertical"
-            Label:
-                text: "Current level is:"
-            Label:
-                text: "#"
+            Button:
+                id: GenerateButton
+                background_color: "red"
+                text: "Generate"
+                on_press: app.calculateNoOfLayouts()
+                on_press: app.createLayouts()
         Button:
-            on_press: app.calculateNoOfLayouts()
             text: "---->"
     BoxLayout:
         size: root.width, root.height * 0.1
@@ -83,7 +83,7 @@ Window:
                 text: "#"
                 id: currentLayoutLabel
             Label:
-                text: "Number of available layouts :"
+                text: "Number of available Unit Groups per level :"
             Label:
                 text: "#"
                 id: numberOfLayoutsLabel

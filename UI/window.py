@@ -7,16 +7,19 @@ from kivy.core.window import Window
 import generate
 import parseConfigs
 
+
 # TODO adatok validálása (max. 20km2, max 20lvl), popup rá
 # TODO multithread?
-# TODO kezdeti mozgatás megszüntetése
 # TODO Visio diagram!
 # TODO Unit test
 # TODO Futási idő diagram
 
 
-
 class Window(Widget):
+    def __init__(self, **kwargs):
+        super(Window, self).__init__(**kwargs)
+        self.height = 599
+
     pass
 
 
@@ -57,14 +60,14 @@ class WindowApp(App):
     def createLayouts(self):
         for i in range(int(self.noOfLayouts)):
             z = Button()
-            r = random.uniform(0,1)
-            g = random.uniform(0,1)
-            b = random.uniform(0,1)
-            z.background_color=(r,g,b,1)
+            r = random.uniform(0, 1)
+            g = random.uniform(0, 1)
+            b = random.uniform(0, 1)
+            z.background_color = (r, g, b, 1)
             z.text = str(i + 1)
             self.root.ids.layoutarea.add_widget(z)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        parseConfigs.parseJson()
+        self.calculateNoOfLayouts()
         self.noOfLayoutsCurrently += self.noOfLayouts
 
     def layoutBack(self, layoutarea):

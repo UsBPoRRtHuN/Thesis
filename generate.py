@@ -1,5 +1,7 @@
 from Model import BaseGroup
 from Model.BaseUnit import BaseUnit
+import parseConfigs
+
 # default értékek
 
 
@@ -10,6 +12,7 @@ sizeOfUnit = 25
 def calculate(area, levels):
     NoOfLayouts = (int(area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(levels)
     Group = BaseGroup.BaseGroup()
-    print(int(Group.size))
-
     return NoOfLayouts
+
+def parseConfig():
+    list = parseConfigs.parseJson()
