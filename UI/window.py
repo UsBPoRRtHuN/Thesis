@@ -58,6 +58,18 @@ class WindowApp(App):
         self.root.ids.numberOfLayoutsLabel.text = str(self.noOfLayouts)
 
     def createLayouts(self):
+        self.calculateNoOfLayouts()
+        self.generate()
+        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+        self.noOfLayoutsCurrently += self.noOfLayouts
+        self.generateGroups(self.noOfLayouts)
+
+    def generateGroups(self,noOfLayouts):
+        list = parseConfigs.parseJson()
+        print(list[int(noOfLayouts-2)][0])
+
+
+    def generate(self):
         for i in range(int(self.noOfLayouts)):
             z = Button()
             r = random.uniform(0, 1)
@@ -66,9 +78,6 @@ class WindowApp(App):
             z.background_color = (r, g, b, 1)
             z.text = str(i + 1)
             self.root.ids.layoutarea.add_widget(z)
-        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        self.calculateNoOfLayouts()
-        self.noOfLayoutsCurrently += self.noOfLayouts
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
