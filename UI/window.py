@@ -4,7 +4,6 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 import generate
-import parseConfigs
 
 
 # TODO adatok validálása (max. 20km2, max 20lvl), popup rá
@@ -42,30 +41,16 @@ class WindowApp(App):
             self.root.ids.LevelsInput.opacity = 0
 
     def areavalidate(self, areatext):
-
-        generate.area = areatext.text
+        if int(areatext.text) > 8000:
+            print("8000-nél nagyobbat ne adjál meg légy kedves")
+        else:
+            generate.area = areatext.text
 
     def levelsvalidate(self, levelstext):
-        generate.levels = levelstext.text
-
-    def calculateNoOfLayouts(self):
-        self.root.ids.numberOfLayoutsLabel.text = str(generate.noOfLayouts)
-
-    def createLayouts(self):
-        generate.noOfLayouts = generate.calculate()
-        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        self.noOfLayoutsCurrently += generate.noOfLayouts
-
-    def generateWidgets(self):
-        self.createLayouts()
-        for i in range(int(generate.noOfLayouts)):
-            z = Button()
-            r = random.uniform(0, 1)
-            g = random.uniform(0, 1)
-            b = random.uniform(0, 1)
-            z.background_color = (r, g, b, 1)
-            z.text = str(i + 1)
-            self.root.ids.layoutarea.add_widget(z)
+        if int(levelstext.text) > 10:
+            print("10 szintnél nagyobbat ne adjál meg légy kedves")
+        else:
+            generate.levels = levelstext.text
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
@@ -76,6 +61,20 @@ class WindowApp(App):
         if layoutarea.page != self.noOfLayoutsCurrently - 1:
             layoutarea.page += 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+
+    def generateWidgets(self):
+        generate.noOfLayouts = generate.calculate()
+        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+        self.noOfLayoutsCurrently += generate.noOfLayouts
+        self.root.ids.numberOfLayoutsLabel.text = str(generate.noOfLayouts)
+        for i in range(int(generate.noOfLayouts)):
+            z = Button()
+            r = random.uniform(0, 1)
+            g = random.uniform(0, 1)
+            b = random.uniform(0, 1)
+            z.background_color = (r, g, b, 1)
+            z.text = str(i + 1)
+            self.root.ids.layoutarea.add_widget(z)
 
 
 def create_window():
