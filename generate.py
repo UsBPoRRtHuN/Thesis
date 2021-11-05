@@ -7,9 +7,11 @@ import parseConfigs
 
 sizeOfGroup = 16
 sizeOfUnit = 25
+area = 8000
+levels = 4
+noOfLayouts = 20
 
-
-def calculate(area, levels):
+def calculate():
     NoOfLayouts = (int(area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(levels)
     Group = BaseGroup.BaseGroup()
     return NoOfLayouts

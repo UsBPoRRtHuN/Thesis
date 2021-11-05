@@ -3,7 +3,6 @@ import random
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-from kivy.core.window import Window
 import generate
 import parseConfigs
 
@@ -24,10 +23,6 @@ class Window(Widget):
 
 
 class WindowApp(App):
-    # Default értékek
-    area = 8000
-    levels = 4
-    noOfLayouts = 20
     noOfLayoutsCurrently = 0
 
     def build(self):
@@ -48,29 +43,22 @@ class WindowApp(App):
 
     def areavalidate(self, areatext):
 
-        self.area = areatext.text
+        generate.area = areatext.text
 
     def levelsvalidate(self, levelstext):
-        self.levels = levelstext.text
+        generate.levels = levelstext.text
 
     def calculateNoOfLayouts(self):
-        self.noOfLayouts = generate.calculate(self.area, self.levels)
-        self.root.ids.numberOfLayoutsLabel.text = str(self.noOfLayouts)
+        self.root.ids.numberOfLayoutsLabel.text = str(generate.noOfLayouts)
 
     def createLayouts(self):
-        self.calculateNoOfLayouts()
-        self.generate()
+        generate.noOfLayouts = generate.calculate()
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        self.noOfLayoutsCurrently += self.noOfLayouts
-        self.generateGroups(self.noOfLayouts)
+        self.noOfLayoutsCurrently += generate.noOfLayouts
 
-    def generateGroups(self,noOfLayouts):
-        list = parseConfigs.parseJson()
-        print(list[int(noOfLayouts-2)][0])
-
-
-    def generate(self):
-        for i in range(int(self.noOfLayouts)):
+    def generateWidgets(self):
+        self.createLayouts()
+        for i in range(int(generate.noOfLayouts)):
             z = Button()
             r = random.uniform(0, 1)
             g = random.uniform(0, 1)
