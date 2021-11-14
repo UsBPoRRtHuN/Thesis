@@ -1,6 +1,8 @@
 import random
 
 from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.stacklayout import StackLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 import generate
@@ -68,13 +70,22 @@ class WindowApp(App):
         self.noOfLayoutsCurrently += generate.noOfLayouts
         self.root.ids.numberOfLayoutsLabel.text = str(generate.noOfLayouts)
         for i in range(int(generate.noOfLayouts)):
-            z = Button()
-            r = random.uniform(0, 1)
-            g = random.uniform(0, 1)
-            b = random.uniform(0, 1)
-            z.background_color = (r, g, b, 1)
-            z.text = str(i + 1)
-            self.root.ids.layoutarea.add_widget(z)
+            bigLayout = GridLayout()
+            bigLayout.cols = 3
+            for i in range (5):
+                layout = GridLayout()
+                layout.cols = 4
+                for i in range (16):
+                    z = Button()
+                    z.size_hint = (0.1,0.1)
+                    r = random.uniform(0, 1)
+                    g = random.uniform(0, 1)
+                    b = random.uniform(0, 1)
+                    z.background_color = (r, g, b, 1)
+                    z.text = str(i + 1)
+                    layout.add_widget(z)
+                bigLayout.add_widget(layout)
+            self.root.ids.layoutarea.add_widget(bigLayout)
 
 
 def create_window():
