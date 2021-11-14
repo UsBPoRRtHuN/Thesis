@@ -75,34 +75,24 @@ Window:
             on_press: app.layoutBack(layoutarea)
             text: "<----"
         BoxLayout:
+            canvas:
+                Line:
+                    points: (0, root.height-(root.height*0.255), root.width, root.height-(root.height*0.255))
+                    width: 0.5
             orientation: "vertical"
             Label:
                 text: "Current layout is: "
             Label:
                 text: "#"
                 id: currentLayoutLabel
-            Label:
-                text: "No of available Unit Groups per level :"
-            Label:
-                text: "#"
-                id: numberOfLayoutsLabel
         Button:
             on_press: app.layoutForward(layoutarea)
             text:"---->"
     BoxLayout:
-        size: root.width, root.height * 0.65
+        size: root.width, root.height * 0.645
         top: root.top - root.height * 0.25
         orientation: "horizontal"
         PageLayout:
             id: layoutarea
             border: 0
-            #Button:
-                #text: "layout area"
-                #background_color: (0.2, 0.5, 0.76, 1.0)
-            #Button:
-                #text: "layout area 2"
-                #background_color: (0.8, 0.1, 0.6, 1.0)
-            #Button:
-                #text: "layout area 3"
-                #background_color: (0.2, 0.6, 0.1, 1.0)
 

@@ -2,7 +2,6 @@ import random
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.stacklayout import StackLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 import generate
@@ -25,6 +24,7 @@ class Window(Widget):
 
 class WindowApp(App):
     noOfLayoutsCurrently = 0
+    gen = generate.Generate
 
     def build(self):
         return Window()
@@ -46,13 +46,13 @@ class WindowApp(App):
         if int(areatext.text) > 8000:
             print("8000-nél nagyobbat ne adjál meg légy kedves")
         else:
-            generate.area = areatext.text
+            self.gen.area = areatext.text
 
     def levelsvalidate(self, levelstext):
         if int(levelstext.text) > 10:
             print("10 szintnél nagyobbat ne adjál meg légy kedves")
         else:
-            generate.levels = levelstext.text
+            self.gen.levels = levelstext.text
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
@@ -65,27 +65,28 @@ class WindowApp(App):
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
 
     def generateWidgets(self):
-        generate.noOfLayouts = generate.calculate()
+        self.gen.init(self.gen)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        self.noOfLayoutsCurrently += generate.noOfLayouts
-        self.root.ids.numberOfLayoutsLabel.text = str(generate.noOfLayouts)
-        for i in range(int(generate.noOfLayouts)):
-            bigLayout = GridLayout()
-            bigLayout.cols = 3
-            for i in range (5):
-                layout = GridLayout()
-                layout.cols = 4
-                for i in range (16):
+        self.noOfLayoutsCurrently += self.gen.noOfLayouts
+
+        for i in range(int(self.gen.noOfLayouts)):
+            outerLayout = GridLayout()
+            outerLayout.cols = 3
+            for i in range(int(self.gen.noOfBaseGroups)):
+                innerLayout = GridLayout()
+                innerLayout.cols = 4
+                for i in range(16):
                     z = Button()
-                    z.size_hint = (0.1,0.1)
+                    z.size_hint = (0.1, 0.1)
                     r = random.uniform(0, 1)
                     g = random.uniform(0, 1)
                     b = random.uniform(0, 1)
                     z.background_color = (r, g, b, 1)
                     z.text = str(i + 1)
-                    layout.add_widget(z)
-                bigLayout.add_widget(layout)
-            self.root.ids.layoutarea.add_widget(bigLayout)
+                    innerLayout.add_widget(z)
+                innerLayout.padding = 3
+                outerLayout.add_widget(innerLayout)
+            self.root.ids.layoutarea.add_widget(outerLayout)
 
 
 def create_window():

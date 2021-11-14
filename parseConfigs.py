@@ -6,15 +6,24 @@ import warnings
 warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
 # TODO szebb megoldás a dictionary beolvasására
+# json fájlszerkesztő
 
-objectList = []
+groupList = []
+unitList = []
 
-
-def parseJson():
+def parseBaseGroupJson():
     with open(os.getcwd() + '\\Data\\GroupConfigs.json', 'r') as groupFile:
-        data = groupFile.read()
-        group = json.loads(data)
+        groupData = groupFile.read()
+        group = json.loads(groupData)
         for i in range(len(group)):
-            objectList.append(group[
+            groupList.append(group[
                                   str(i + 2)])  # Mivel a legkisebb kiosztás is 2 alapegységből áll, ezért kell a +2 offset a nevezékhez
-        return objectList
+        return groupList
+
+def parseBaseUnitJson():
+    with open(os.getcwd() + '\\Data\\BaseUnitConfigs.json', 'r') as unitFile:
+        unitData = unitFile.read()
+        unit = json.loads(unitData)
+        unitList.append(unit)
+        return unitList
+
