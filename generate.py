@@ -5,7 +5,7 @@ import parseConfigs
 
 # default értékek
 
-class Generate():
+class Generate:
 
     sizeOfGroup = 16
     sizeOfUnit = 25
@@ -19,6 +19,7 @@ class Generate():
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
+
 
     def calculate(self):
         self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
