@@ -33,7 +33,13 @@ class Generate:
         finalBorders = {}
         self.getBorders(self, borders)
         self.createBorders(self, borders, finalBorders)
-        print(finalBorders)
+        self.compareBorders(self, finalBorders)
+
+    def compareBorders(self, finalBorders):
+        for key in finalBorders:
+            for i in range(len(finalBorders[key])):
+                for j in (finalBorders[key][i]):
+                    print(finalBorders[key][i][j])
 
     def getBorders(self, borders):
         for i in range(len(self.baseUnitList)):
@@ -51,16 +57,20 @@ class Generate:
 
     def createBorders(self, borders, finalBorders):
         for i in range(len(borders)):
-            left = []
-            right = []
-
-            top = [borders[i][0]]  # Első elem, ez mindig a teteje lesz a BaseGroupnak
-            down = [borders[i][-1]]  # BaseGroup magasságát felhasználva megkapom az utolsó elemét
+            leftList = []
+            rightList = []
+            left = {}
+            right = {}
+            top = {}
+            down = {}
+            top["top"] = [borders[i][0]]  # Első elem, ez mindig a teteje lesz a BaseGroupnak
+            down["down"] = [borders[i][-1]]  # BaseGroup magasságát felhasználva megkapom az utolsó elemét
             for j in range(len(borders[i])):
-                left.append(borders[i][j][0])  # bal széle
-                right.append(borders[i][j][-1])  # jobb széle
-            groupBorder = [top, right, down, left]
-            finalBorders[i] = groupBorder
+                leftList.append(borders[i][j][0])  # bal széle
+                rightList.append(borders[i][j][-1])  # jobb széle
+            left["left"] = leftList
+            right["right"] = rightList
+            finalBorders[i] = top, right, down, left
 
     def calculate(self):
         self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
