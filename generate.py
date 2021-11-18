@@ -36,10 +36,24 @@ class Generate:
         self.compareBorders(self, finalBorders)
 
     def compareBorders(self, finalBorders):
+        temp = list(finalBorders)
+        matchingBorders = {}
         for key in finalBorders:
-            for i in range(len(finalBorders[key])):
-                for j in (finalBorders[key][i]):
-                    print(finalBorders[key][i][j])
+            try:
+                res = temp[temp.index(key) + 1]
+            except (ValueError, IndexError):
+                res = None
+            for pos in range(len(finalBorders[key])):
+                for border in (finalBorders[key][pos]):
+                    try:
+                        for comparingPos in range(len(finalBorders[res])):
+                            for comparingBorder in (finalBorders[res][comparingPos]):
+                                if finalBorders[key][pos][border] == finalBorders[res][comparingPos][comparingBorder]:
+                                    print (finalBorders[key][pos])
+                                    print (finalBorders[res][comparingPos])
+                                    print("A " + str(key) +". groupunit"+str(finalBorders[key][pos])+" oldala megegyezik a "+str(res)+ str(finalBorders[res][comparingPos]) +"oldalával")
+                    except (ValueError, IndexError, KeyError):
+                        print()
 
     def getBorders(self, borders):
         for i in range(len(self.baseUnitList)):
