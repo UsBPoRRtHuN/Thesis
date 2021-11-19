@@ -50,14 +50,16 @@ class Generate:
                         for comparingPos in range(len(finalBorders[res])):
                             for comparingBorder in (finalBorders[res][comparingPos]):
                                 if finalBorders[key][pos][border] == finalBorders[res][comparingPos][comparingBorder]:
-                                    i+=1
+                                    i += 1
                                     print("A " + str(key) + ". groupunit" + str(
                                         finalBorders[key][pos]) + " oldala megegyezik a " + str(res) + str(
                                         finalBorders[res][comparingPos]) + "oldalával")
-                                    matchingBorders[i] = finalBorders[key][pos], finalBorders[res][comparingPos]
+                                    matchingBorders[i] = [str(key), finalBorders[key][pos]], [str(res),
+                                                                                              finalBorders[res][
+                                                                                                  comparingPos]]
                     except (ValueError, IndexError, KeyError):
                         print("")
-        print (matchingBorders)
+        print(matchingBorders)
 
     def getBorders(self, borders):
         for i in range(len(self.baseUnitList)):
