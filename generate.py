@@ -31,9 +31,11 @@ class Generate:
     def examineCompatibility(self):
         borders = []
         finalBorders = {}
+        matchingBorders = {}
         self.getBorders(self, borders)
         self.createBorders(self, borders, finalBorders)
-        self.compareBorders(self, finalBorders)
+        matchingBorders = self.compareBorders(self, finalBorders)
+        print(matchingBorders)
 
     def compareBorders(self, finalBorders):
         temp = list(finalBorders)
@@ -47,19 +49,17 @@ class Generate:
             for pos in range(len(finalBorders[key])):
                 for border in (finalBorders[key][pos]):
                     try:
-                        for comparingPos in range(len(finalBorders[res])):
-                            for comparingBorder in (finalBorders[res][comparingPos]):
-                                if finalBorders[key][pos][border] == finalBorders[res][comparingPos][comparingBorder]:
-                                    i += 1
-                                    print("A " + str(key) + ". groupunit" + str(
-                                        finalBorders[key][pos]) + " oldala megegyezik a " + str(res) + str(
-                                        finalBorders[res][comparingPos]) + "oldalával")
-                                    matchingBorders[i] = [str(key), finalBorders[key][pos]], [str(res),
-                                                                                              finalBorders[res][
-                                                                                                  comparingPos]]
+                        for res in range(len((finalBorders))):
+                            if int(key) < int(res): # önmagánál kisebbet már ne vizsgáljon
+                                for comparingPos in range(len(finalBorders[res])):
+                                    for comparingBorder in (finalBorders[res][comparingPos]):
+                                        if finalBorders[key][pos][border] == finalBorders[res][comparingPos][comparingBorder] and finalBorders[res] is not finalBorders[key]: #önmagát ne vizsgálja
+                                            i += 1
+                                            print("A " + str(key) + ". groupunit" + str(finalBorders[key][pos]) + " oldala megegyezik a " + str(res) + str(finalBorders[res][comparingPos]) + "oldalával")
+                                            matchingBorders[i] = [str(key), finalBorders[key][pos]], [str(res),finalBorders[res][comparingPos]]
                     except (ValueError, IndexError, KeyError):
-                        print("")
-        print(matchingBorders)
+                        pass
+        return matchingBorders
 
     def getBorders(self, borders):
         for i in range(len(self.baseUnitList)):
