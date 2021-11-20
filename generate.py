@@ -1,7 +1,7 @@
 from Model import BaseGroup
 from Model.BaseUnit import BaseUnit
 import parseConfigs
-
+import layout
 
 # default értékek
 
@@ -16,17 +16,25 @@ class Generate:
     baseUnitList = []
 
     def init(self):
+        layoutList = []
         self.loadConfigs(self)
         self.calculate(self)
-        self.generateLayouts(self)
+        layoutList = self.generateLayouts(self)
+        return layoutList
 
     def generateLayouts(self):
+        layoutList = []
         self.noOfLayouts = 1
+        matchingBorders = self.examineCompatibility(self)
+        currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups-2)]))
+        allPossibleLayouts = (len(matchingBorders)*currentNoOfGroupLayoutLength)+(len(self.baseUnitList)*currentNoOfGroupLayoutLength) # ez még vszeg hibás érték
+        for i in range(allPossibleLayouts):
+            lay = layout.Layout
+            layoutList.append(lay)
+        return layoutList
 
-        allPossibleLayouts = 1  # Placeholder érték
-        for i in range(int(self.noOfBaseGroups)):
-            allPossibleLayouts *= len(self.baseUnitList)
-        self.examineCompatibility(self)
+
+
 
     def examineCompatibility(self):
         borders = []
@@ -35,7 +43,7 @@ class Generate:
         self.getBorders(self, borders)
         self.createBorders(self, borders, finalBorders)
         matchingBorders = self.compareBorders(self, finalBorders)
-        print(matchingBorders)
+        return matchingBorders
 
     def compareBorders(self, finalBorders):
         temp = list(finalBorders)
@@ -55,7 +63,7 @@ class Generate:
                                     for comparingBorder in (finalBorders[res][comparingPos]):
                                         if finalBorders[key][pos][border] == finalBorders[res][comparingPos][comparingBorder] and finalBorders[res] is not finalBorders[key]: #önmagát ne vizsgálja
                                             i += 1
-                                            print("A " + str(key) + ". groupunit" + str(finalBorders[key][pos]) + " oldala megegyezik a " + str(res) + str(finalBorders[res][comparingPos]) + "oldalával")
+                                            #print("A " + str(key) + ". groupunit" + str(finalBorders[key][pos]) + " oldala megegyezik a " + str(res) + str(finalBorders[res][comparingPos]) + "oldalával")
                                             matchingBorders[i] = [str(key), finalBorders[key][pos]], [str(res),finalBorders[res][comparingPos]]
                     except (ValueError, IndexError, KeyError):
                         pass

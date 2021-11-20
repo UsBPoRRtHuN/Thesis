@@ -65,7 +65,7 @@ class WindowApp(App):
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
 
     def generateWidgets(self):
-        self.gen.init(self.gen)
+        layoutlist = self.gen.init(self.gen)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         self.noOfLayoutsCurrently += self.gen.noOfLayouts
 
