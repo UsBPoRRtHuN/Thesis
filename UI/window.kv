@@ -56,8 +56,6 @@ Window:
             Line:
                 points: (0, root.height-(root.height*0.9), root.width, root.height-(root.height*0.9))
                 width: 0.5
-        Button:
-            text: "<----"
         BoxLayout:
             orientation: "vertical"
             Button:
@@ -65,8 +63,6 @@ Window:
                 background_color: "red"
                 text: "Generate"
                 on_press: app.generateWidgets()
-        Button:
-            text: "---->"
     BoxLayout:
         size: root.width, root.height * 0.1
         orientation: "horizontal"

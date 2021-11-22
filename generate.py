@@ -25,7 +25,6 @@ class Generate:
 
     def generateLayouts(self):
         layoutList = []
-        self.noOfLayouts = 1
         matchingBorders = self.examineCompatibility(self)
         currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
         allPossibleLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
