@@ -1,4 +1,3 @@
-import random
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
@@ -8,7 +7,7 @@ import generate
 import Model.BaseUnit
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-
+from kivy.graphics.vertex_instructions import Line
 
 # TODO multithread?
 # TODO Visio diagram!
@@ -18,9 +17,8 @@ from kivy.uix.label import Label
 
 class Window(Widget):
     def __init__(self, **kwargs):
-        super(Window, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.height = 599
-
     pass
 
 
@@ -102,22 +100,26 @@ class WindowApp(App):
                 for baseunits in range(len(layoutlist[layouts].Space[basegroups])):
                     for baseunitelement in range(len(layoutlist[layouts].Space[basegroups][baseunits])):
                         for unit in range(len(layoutlist[layouts].Space[basegroups][baseunits][baseunitelement])):
-                            z = Button()
-                            z.size_hint = (0.1, 0.1)
+                            z = Label()
                             z.text = str(unit)
                             if layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "X":
                                 r = 0.5
                                 g = 0.5
                                 b = 0.5
+                                z.color = (r, g, b, 0)
+                                z.text =""
                             elif layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "A":
                                 r = 0
                                 g = 0
                                 b = 1
+                                z.color = (r, g, b, 1)
+                                z.text="A"
                             else:
                                 r = 1
                                 g = 1
                                 b = 0
-                            z.background_color = (r, g, b, 1)
+                                z.color = (r, g, b, 1)
+                                z.text="O"
                             innerLayout.padding = 3
                             innerLayout.add_widget(z)
                 outerLayout.add_widget(innerLayout)
