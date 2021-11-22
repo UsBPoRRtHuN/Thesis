@@ -4,11 +4,11 @@ import parseConfigs
 import layout
 
 
-# default értékek
+# TODO BaseUnitok adatait kiolvasni jsonból. Ne crasheljen tőle az egész.
+
 
 class Generate:
-    sizeOfGroup = 16
-    sizeOfUnit = 25
+    # Default values
     area = 8000
     levels = 4
     noOfLayouts = 10
@@ -16,24 +16,22 @@ class Generate:
     baseGroupList = []
     baseUnitList = []
 
-    def init(self):
+    def generateLayoutList(self):
         layoutList = []
         self.loadConfigs(self)
         self.calculate(self)
-        layoutList = self.generateLayouts(self)
+        self.generateLayouts(self, layoutList)
         return layoutList
 
-    def generateLayouts(self):
-        layoutList = []
+    def generateLayouts(self, layoutList):
         matchingBorders = self.examineCompatibility(self)
         currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
-        allPossibleLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
-                    len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
-        for i in range(allPossibleLayouts):
+        self.noOfLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
+                len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
+        for i in range(self.noOfLayouts):
             lay = layout.Layout(self.baseUnitList)
             lay.getLayouts()
             layoutList.append(lay)
-        return layoutList
 
     def examineCompatibility(self):
         borders = []
@@ -92,10 +90,10 @@ class Generate:
             rightList = []
             left = {}
             right = {}
-            top = {}
-            down = {}
-            top["top"] = [borders[i][0]]  # Első elem, ez mindig a teteje lesz a BaseGroupnak
-            down["down"] = [borders[i][-1]]  # BaseGroup magasságát felhasználva megkapom az utolsó elemét
+            top = {'top': [borders[i][0]]}
+            down = {'down': [borders[i][-1]]}
+            # Első elem, ez mindig a teteje lesz a BaseGroupnak
+            # BaseGroup magasságát felhasználva megkapom az utolsó elemét
             for j in range(len(borders[i])):
                 leftList.append(borders[i][j][0])  # bal széle
                 rightList.append(borders[i][j][-1])  # jobb széle

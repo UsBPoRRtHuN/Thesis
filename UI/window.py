@@ -1,5 +1,4 @@
 import random
-
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
@@ -11,7 +10,6 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 
-# TODO adatok validálása (max. 20km2, max 20lvl), popup rá
 # TODO multithread?
 # TODO Visio diagram!
 # TODO Unit test
@@ -28,7 +26,7 @@ class Window(Widget):
 
 class WindowApp(App):
     gen = generate.Generate
-    noOfLayoutsCurrently = gen.noOfLayouts
+    noOfLayoutsCurrently = 0
     maxArea = 20000
     maxLevels = 20
 
@@ -92,7 +90,8 @@ class WindowApp(App):
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
 
     def generateWidgets(self):
-        layoutlist = self.gen.init(self.gen)
+        layoutlist = self.gen.generateLayoutList(self.gen)
+        self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         for layouts in range(int(len(layoutlist))):  # 5*5 mátrix a Groupoknak
             outerLayout = GridLayout()

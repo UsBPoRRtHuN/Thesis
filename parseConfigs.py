@@ -5,10 +5,11 @@ import warnings
 
 warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
-#TODO json fájlszerkesztő
+# TODO json fájlszerkesztő
 
 groupList = []
 unitList = []
+
 
 def parseBaseGroupJson():
     with open(os.getcwd() + '\\Data\\GroupConfigs.json', 'r') as groupFile:
@@ -18,6 +19,7 @@ def parseBaseGroupJson():
             groupList.append(group[key])
         return groupList
 
+
 def parseBaseUnitJson():
     with open(os.getcwd() + '\\Data\\BaseUnitConfigs.json', 'r') as unitFile:
         unitData = unitFile.read()
@@ -25,4 +27,3 @@ def parseBaseUnitJson():
         for key in unit:
             unitList.append(unit[key])
         return unitList
-
