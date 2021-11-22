@@ -5,7 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 import generate
-
+import Model.BaseUnit
 
 # TODO adatok validálása (max. 20km2, max 20lvl), popup rá
 # TODO multithread?
@@ -68,25 +68,36 @@ class WindowApp(App):
         layoutlist = self.gen.init(self.gen)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         self.noOfLayoutsCurrently += self.gen.noOfLayouts
-
-        for i in range(int(self.gen.noOfLayouts)):
+        for layouts in range(int(len(layoutlist))): # 5*5 mátrix a Groupoknak
             outerLayout = GridLayout()
-            outerLayout.cols = 3
-            for i in range(int(self.gen.noOfBaseGroups)):
+            outerLayout.cols = int(len(layoutlist[layouts].Space))
+            for basegroups in range(len(layoutlist[layouts].Space)):
                 innerLayout = GridLayout()
                 innerLayout.cols = 4
-                for i in range(16):
-                    z = Button()
-                    z.size_hint = (0.1, 0.1)
-                    r = random.uniform(0, 1)
-                    g = random.uniform(0, 1)
-                    b = random.uniform(0, 1)
-                    z.background_color = (r, g, b, 1)
-                    z.text = str(i + 1)
-                    innerLayout.add_widget(z)
-                innerLayout.padding = 3
+                for baseunits in range(len(layoutlist[layouts].Space[basegroups])):
+                    for baseunitelement in range(len(layoutlist[layouts].Space[basegroups][baseunits])):
+                        for unit in range(len(layoutlist[layouts].Space[basegroups][baseunits][baseunitelement])):
+                            z = Button()
+                            z.size_hint = (0.1,0.1)
+                            z.text = str(unit)
+                            if layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "X":
+                                r = 0.5
+                                g = 0.5
+                                b = 0.5
+                            elif layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "A":
+                                r = 0
+                                g = 0
+                                b = 1
+                            else:
+                                r = 1
+                                g = 1
+                                b = 0
+                            z.background_color = (r, g, b, 1)
+                            innerLayout.add_widget(z)
                 outerLayout.add_widget(innerLayout)
-            self.root.ids.layoutarea.add_widget(outerLayout)
+        self.root.ids.layoutarea.add_widget(outerLayout)
+
+        #self.root.ids.layoutarea.add_widget(outerLayout)
 
 
 def create_window():
