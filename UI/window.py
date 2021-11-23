@@ -11,6 +11,7 @@ from kivy.graphics.vertex_instructions import Line
 from kivy.graphics import *
 import threading
 
+
 # TODO multithread?
 # TODO Visio diagram!
 # TODO Unit test
@@ -21,6 +22,7 @@ class Window(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.height = 599
+
     pass
 
 
@@ -90,17 +92,16 @@ class WindowApp(App):
         if layoutarea.page != self.noOfLayoutsCurrently - 1:
             layoutarea.page += 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-            #TODO ide az új threadet!
             t1 = threading.Thread(target=self.generateWidgets())
             t1.start()
-            self.generateWidgets()
 
     def generateWidgets(self):
         self.root.ids.layoutarea.clear_widgets()
         layoutlist = self.gen.generateLayoutList(self.gen)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
+        print(self.noOfLayoutsCurrently)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        num = int(self.root.ids.currentLayoutLabel.text)-1
+        num = int(self.root.ids.currentLayoutLabel.text) - 1
         outerLayout = GridLayout()
         outerLayout.cols = int(len(layoutlist[num].Space))
         for basegroups in range(len(layoutlist[num].Space)):
@@ -108,7 +109,7 @@ class WindowApp(App):
             innerLayout.cols = 4
             for baseunits in range(len(layoutlist[num].Space[basegroups])):
                 with self.root.ids.layoutarea.canvas:
-                    Color(0,0,0)
+                    Color(0, 0, 0)
                     Rectangle(pos=(self.root.ids.layoutarea.pos), size=(self.root.ids.layoutarea.size))
                     for baseunitelement in range(len(layoutlist[num].Space[basegroups][baseunits])):
                         for unit in range(len(layoutlist[num].Space[basegroups][baseunits][baseunitelement])):
@@ -117,19 +118,19 @@ class WindowApp(App):
                             z.enabled = False
                             if layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "X":
                                 z.background_color = (0, 0, 0, 0)
-                                z.text =""
+                                z.text = ""
                             elif layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "A":
                                 r = 0
                                 g = 0
                                 b = 1
                                 z.background_color = (r, g, b, 1)
-                                z.text="A"
+                                z.text = "A"
                             else:
                                 r = 1
                                 g = 1
                                 b = 0
                                 z.background_color = (r, g, b, 1)
-                                z.text="O"
+                                z.text = "O"
                             innerLayout.padding = 3
                             innerLayout.add_widget(z)
             outerLayout.add_widget(innerLayout)
