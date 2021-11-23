@@ -8,6 +8,7 @@ import Model.BaseUnit
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.graphics.vertex_instructions import Line
+from kivy.graphics import *
 
 # TODO multithread?
 # TODO Visio diagram!
@@ -86,44 +87,47 @@ class WindowApp(App):
         if layoutarea.page != self.noOfLayoutsCurrently - 1:
             layoutarea.page += 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+            #TODO ide az új threadet!
+            self.generateWidgets()
 
     def generateWidgets(self):
         layoutlist = self.gen.generateLayoutList(self.gen)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        for layouts in range(int(len(layoutlist))):  # 5*5 mátrix a Groupoknak
-            outerLayout = GridLayout()
-            outerLayout.cols = int(len(layoutlist[layouts].Space))
-            for basegroups in range(len(layoutlist[layouts].Space)):
-                innerLayout = GridLayout()
-                innerLayout.cols = 4
-                for baseunits in range(len(layoutlist[layouts].Space[basegroups])):
-                    for baseunitelement in range(len(layoutlist[layouts].Space[basegroups][baseunits])):
-                        for unit in range(len(layoutlist[layouts].Space[basegroups][baseunits][baseunitelement])):
-                            z = Label()
+        num = int(self.root.ids.currentLayoutLabel.text)-1
+        outerLayout = GridLayout()
+        outerLayout.cols = int(len(layoutlist[num].Space))
+        for basegroups in range(len(layoutlist[num].Space)):
+            innerLayout = GridLayout()
+            innerLayout.cols = 4
+            for baseunits in range(len(layoutlist[num].Space[basegroups])):
+                with self.root.ids.layoutarea.canvas:
+                    Color(0.6, 0.6, 0.6)
+                    Rectangle(pos=(self.root.ids.layoutarea.pos), size=(self.root.ids.layoutarea.size))
+                    for baseunitelement in range(len(layoutlist[num].Space[basegroups][baseunits])):
+                        for unit in range(len(layoutlist[num].Space[basegroups][baseunits][baseunitelement])):
+                            z = Button()
                             z.text = str(unit)
-                            if layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "X":
-                                r = 0.5
-                                g = 0.5
-                                b = 0.5
-                                z.color = (r, g, b, 0)
+                            z.enabled = False
+                            if layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "X":
+                                z.background_color = (0, 0, 0, 0)
                                 z.text =""
-                            elif layoutlist[layouts].Space[basegroups][baseunits][baseunitelement][unit] == "A":
+                            elif layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "A":
                                 r = 0
                                 g = 0
                                 b = 1
-                                z.color = (r, g, b, 1)
+                                z.background_color = (r, g, b, 1)
                                 z.text="A"
                             else:
                                 r = 1
                                 g = 1
                                 b = 0
-                                z.color = (r, g, b, 1)
+                                z.background_color = (r, g, b, 1)
                                 z.text="O"
                             innerLayout.padding = 3
                             innerLayout.add_widget(z)
-                outerLayout.add_widget(innerLayout)
-            self.root.ids.layoutarea.add_widget(outerLayout)
+            outerLayout.add_widget(innerLayout)
+        self.root.ids.layoutarea.add_widget(outerLayout)
 
 
 def create_window():
