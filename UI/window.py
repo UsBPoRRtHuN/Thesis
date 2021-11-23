@@ -9,6 +9,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.graphics.vertex_instructions import Line
 from kivy.graphics import *
+import threading
 
 # TODO multithread?
 # TODO Visio diagram!
@@ -82,15 +83,20 @@ class WindowApp(App):
         if layoutarea.page != 0:
             layoutarea.page -= 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
+            t1 = threading.Thread(target=self.generateWidgets())
+            t1.start()
 
     def layoutForward(self, layoutarea):
         if layoutarea.page != self.noOfLayoutsCurrently - 1:
             layoutarea.page += 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
             #TODO ide az új threadet!
+            t1 = threading.Thread(target=self.generateWidgets())
+            t1.start()
             self.generateWidgets()
 
     def generateWidgets(self):
+        self.root.ids.layoutarea.clear_widgets()
         layoutlist = self.gen.generateLayoutList(self.gen)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
@@ -102,7 +108,7 @@ class WindowApp(App):
             innerLayout.cols = 4
             for baseunits in range(len(layoutlist[num].Space[basegroups])):
                 with self.root.ids.layoutarea.canvas:
-                    Color(0.6, 0.6, 0.6)
+                    Color(0,0,0)
                     Rectangle(pos=(self.root.ids.layoutarea.pos), size=(self.root.ids.layoutarea.size))
                     for baseunitelement in range(len(layoutlist[num].Space[basegroups][baseunits])):
                         for unit in range(len(layoutlist[num].Space[basegroups][baseunits][baseunitelement])):
