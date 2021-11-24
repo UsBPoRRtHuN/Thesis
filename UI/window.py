@@ -12,7 +12,6 @@ from kivy.graphics import *
 import threading
 
 
-# TODO multithread?
 # TODO Visio diagram!
 # TODO Unit test
 # TODO Futási idő diagram
@@ -22,7 +21,6 @@ class Window(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.height = 599
-
     pass
 
 
@@ -31,9 +29,6 @@ class WindowApp(App):
     noOfLayoutsCurrently = 0
     maxArea = 20000
     maxLevels = 20
-
-
-
 
     def optionstogglebutton(self, togglebutton):
 
@@ -101,7 +96,6 @@ class WindowApp(App):
     def generateWidgets(self):
         self.root.ids.layoutarea.clear_widgets()
         num = self.root.ids.layoutarea.page
-        self.gen.init(self.gen)
         layout = self.gen.getLayout(self.gen,num)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)

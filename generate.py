@@ -17,15 +17,14 @@ class Generate:
     baseUnitList = []
     layoutList = []
 
-
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
         self.generateLayouts(self,self.layoutList)
 
     def getLayout(self,num):
-        print (num)
-        print(len(self.layoutList))
+        if not self.layoutList:
+            self.init(self)
         return self.layoutList[num]
 
     def generateLayouts(self, layoutList):
