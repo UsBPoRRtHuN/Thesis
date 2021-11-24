@@ -16,37 +16,37 @@ class Generate:
     baseGroupList = []
     baseUnitList = []
     layoutList = []
-
+    matchingBorders = {}
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
-        self.generateLayouts(self,self.layoutList)
+        self.generateBorders(self)
+        self.generateLayouts(self)
 
-    def getLayout(self,num):
+    def getLayout(self, num):
         if not self.layoutList:
             self.init(self)
         return self.layoutList[num]
 
-    def generateLayouts(self, layoutList):
+    def generateLayouts(self):
         for i in range(self.noOfLayouts):
-            lay = layout.Layout(self.baseUnitList)
+            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,i,self.baseGroupList)
             lay.getLayouts()
-            layoutList.append(lay)
+            self.layoutList.append(lay)
 
     def generateBorders(self):
-        matchingBorders = self.examineCompatibility(self)
+        self.examineCompatibility(self)
         currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
-        self.noOfLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
+        self.noOfLayouts = (len(self.matchingBorders) * currentNoOfGroupLayoutLength) + (
                 len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
 
     def examineCompatibility(self):
         borders = []
         finalBorders = {}
-        matchingBorders = {}
+        self.matchingBorders = {}
         self.getBorders(self, borders)
         self.createBorders(self, borders, finalBorders)
-        matchingBorders = self.compareBorders(self, finalBorders)
-        return matchingBorders
+        self.matchingBorders = self.compareBorders(self, finalBorders)
 
     def compareBorders(self, finalBorders):
         temp = list(finalBorders)
