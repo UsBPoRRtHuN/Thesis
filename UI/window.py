@@ -10,7 +10,7 @@ from kivy.uix.label import Label
 from kivy.graphics.vertex_instructions import Line
 from kivy.graphics import *
 import threading
-
+import random
 
 # TODO Visio diagram!
 # TODO Unit test
@@ -81,6 +81,7 @@ class WindowApp(App):
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
+            self.root.ids.layoutarea.clear_widgets()
             layoutarea.page -= 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
             t1 = threading.Thread(target=self.generateWidgets())
@@ -88,13 +89,13 @@ class WindowApp(App):
 
     def layoutForward(self, layoutarea):
         if layoutarea.page != self.noOfLayoutsCurrently - 1:
+            self.root.ids.layoutarea.clear_widgets()
             layoutarea.page += 1
             self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
             t1 = threading.Thread(target=self.generateWidgets())
             t1.start()
 
     def generateWidgets(self):
-        self.root.ids.layoutarea.clear_widgets()
         num = self.root.ids.layoutarea.page
         layout = self.gen.getLayout(self.gen,num)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
@@ -106,9 +107,6 @@ class WindowApp(App):
             innerLayout = GridLayout()
             innerLayout.cols = 4
             for baseunits in range(len(layout.Space[basegroups])):
-                with self.root.ids.layoutarea.canvas:
-                    Color(0, 0, 0)
-                    Rectangle(pos=(self.root.ids.layoutarea.pos), size=(self.root.ids.layoutarea.size))
                     for baseunitelement in range(len(layout.Space[basegroups][baseunits])):
                         for unit in range(len(layout.Space[basegroups][baseunits][baseunitelement])):
                             z = Button()
