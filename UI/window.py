@@ -32,6 +32,9 @@ class WindowApp(App):
     maxArea = 20000
     maxLevels = 20
 
+
+
+
     def optionstogglebutton(self, togglebutton):
 
         if (togglebutton.state == "down"):
@@ -97,29 +100,30 @@ class WindowApp(App):
 
     def generateWidgets(self):
         self.root.ids.layoutarea.clear_widgets()
-        layoutlist = self.gen.generateLayoutList(self.gen)
+        num = self.root.ids.layoutarea.page
+        self.gen.init(self.gen)
+        layout = self.gen.getLayout(self.gen,num)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
-        print(self.noOfLayoutsCurrently)
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         num = int(self.root.ids.currentLayoutLabel.text) - 1
         outerLayout = GridLayout()
-        outerLayout.cols = int(len(layoutlist[num].Space))
-        for basegroups in range(len(layoutlist[num].Space)):
+        outerLayout.cols = int(len(layout.Space))
+        for basegroups in range(len(layout.Space)):
             innerLayout = GridLayout()
             innerLayout.cols = 4
-            for baseunits in range(len(layoutlist[num].Space[basegroups])):
+            for baseunits in range(len(layout.Space[basegroups])):
                 with self.root.ids.layoutarea.canvas:
                     Color(0, 0, 0)
                     Rectangle(pos=(self.root.ids.layoutarea.pos), size=(self.root.ids.layoutarea.size))
-                    for baseunitelement in range(len(layoutlist[num].Space[basegroups][baseunits])):
-                        for unit in range(len(layoutlist[num].Space[basegroups][baseunits][baseunitelement])):
+                    for baseunitelement in range(len(layout.Space[basegroups][baseunits])):
+                        for unit in range(len(layout.Space[basegroups][baseunits][baseunitelement])):
                             z = Button()
                             z.text = str(unit)
                             z.enabled = False
-                            if layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "X":
+                            if layout.Space[basegroups][baseunits][baseunitelement][unit] == "X":
                                 z.background_color = (0, 0, 0, 0)
                                 z.text = ""
-                            elif layoutlist[num].Space[basegroups][baseunits][baseunitelement][unit] == "A":
+                            elif layout.Space[basegroups][baseunits][baseunitelement][unit] == "A":
                                 r = 0
                                 g = 0
                                 b = 1

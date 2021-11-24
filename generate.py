@@ -15,23 +15,30 @@ class Generate:
     noOfBaseGroups = 5
     baseGroupList = []
     baseUnitList = []
+    layoutList = []
 
-    def generateLayoutList(self):
-        layoutList = []
+
+    def init(self):
         self.loadConfigs(self)
         self.calculate(self)
-        self.generateLayouts(self, layoutList)
-        return layoutList
+        self.generateLayouts(self,self.layoutList)
+
+    def getLayout(self,num):
+        print (num)
+        print(len(self.layoutList))
+        return self.layoutList[num]
 
     def generateLayouts(self, layoutList):
-        matchingBorders = self.examineCompatibility(self)
-        currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
-        self.noOfLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
-                len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
         for i in range(self.noOfLayouts):
             lay = layout.Layout(self.baseUnitList)
             lay.getLayouts()
             layoutList.append(lay)
+
+    def generateBorders(self):
+        matchingBorders = self.examineCompatibility(self)
+        currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
+        self.noOfLayouts = (len(matchingBorders) * currentNoOfGroupLayoutLength) + (
+                len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
 
     def examineCompatibility(self):
         borders = []
