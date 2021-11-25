@@ -22,7 +22,6 @@ class Generate:
         self.calculate(self)
         self.generateBorders(self)
         self.generateLayouts(self)
-
     def getLayout(self, num):
         if not self.layoutList:
             self.init(self)
@@ -30,7 +29,7 @@ class Generate:
 
     def generateLayouts(self):
         for i in range(self.noOfLayouts):
-            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,i,self.baseGroupList)
+            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,i,self.baseGroupList,self.noOfBaseGroups)
             lay.getLayouts()
             self.layoutList.append(lay)
 

@@ -126,7 +126,7 @@ class WindowApp(App):
                                 g = 1
                                 b = 0
                                 z.background_color = (r, g, b, 1)
-                                z.text = "O"
+                                z.text = "I"
                             innerLayout.padding = 3
                             innerLayout.add_widget(z)
             outerLayout.add_widget(innerLayout)
