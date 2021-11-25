@@ -22,16 +22,16 @@ class Generate:
         self.calculate(self)
         self.generateBorders(self)
         self.generateLayouts(self)
+
     def getLayout(self, num):
         if not self.layoutList:
             self.init(self)
         return self.layoutList[num]
 
     def generateLayouts(self):
-        for i in range(self.noOfLayouts):
-            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,i,self.baseGroupList,self.noOfBaseGroups)
+            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,self.baseGroupList,self.noOfBaseGroups)
             lay.getLayouts()
-            self.layoutList.append(lay)
+            self.layoutList = lay.giveLayoutList()
 
     def generateBorders(self):
         self.examineCompatibility(self)
