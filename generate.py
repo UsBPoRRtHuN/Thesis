@@ -17,6 +17,7 @@ class Generate:
     baseUnitList = []
     layoutList = []
     matchingBorders = {}
+
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
@@ -29,9 +30,10 @@ class Generate:
         return self.layoutList[num]
 
     def generateLayouts(self):
-            lay = layout.Layout(self.baseUnitList, self.matchingBorders,self.noOfLayouts,self.baseGroupList,self.noOfBaseGroups)
-            lay.getLayouts()
-            self.layoutList = lay.giveLayoutList()
+        lay = layout.Layout(self.baseUnitList, self.matchingBorders, self.noOfLayouts, self.baseGroupList,
+                            self.noOfBaseGroups)
+        lay.getLayouts()
+        self.layoutList = lay.giveLayoutList()
 
     def generateBorders(self):
         self.examineCompatibility(self)

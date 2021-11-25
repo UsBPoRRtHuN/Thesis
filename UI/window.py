@@ -12,6 +12,7 @@ from kivy.graphics import *
 import threading
 import random
 
+
 # TODO Visio diagram!
 # TODO Unit test
 # TODO Futási idő diagram
@@ -21,6 +22,7 @@ class Window(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.height = 599
+
     pass
 
 
@@ -97,7 +99,7 @@ class WindowApp(App):
 
     def generateWidgets(self):
         num = self.root.ids.layoutarea.page
-        layout = self.gen.getLayout(self.gen,num)
+        layout = self.gen.getLayout(self.gen, num)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         num = int(self.root.ids.currentLayoutLabel.text) - 1
@@ -107,28 +109,28 @@ class WindowApp(App):
             innerLayout = GridLayout()
             innerLayout.cols = 4
             for baseunits in range(len(layout[basegroups])):
-                    for baseunitelement in range(len(layout[basegroups][baseunits])):
-                        for unit in range(len(layout[basegroups][baseunits][baseunitelement])):
-                            z = Button()
-                            z.text = str(unit)
-                            z.enabled = False
-                            if layout[basegroups][baseunits][baseunitelement][unit] == "X":
-                                z.background_color = (0, 0, 0, 0)
-                                z.text = ""
-                            elif layout[basegroups][baseunits][baseunitelement][unit] == "A":
-                                r = 0
-                                g = 0
-                                b = 1
-                                z.background_color = (r, g, b, 1)
-                                z.text = "A"
-                            else:
-                                r = 1
-                                g = 1
-                                b = 0
-                                z.background_color = (r, g, b, 1)
-                                z.text = "I"
-                            innerLayout.padding = 3
-                            innerLayout.add_widget(z)
+                for baseunitelement in range(len(layout[basegroups][baseunits])):
+                    for unit in range(len(layout[basegroups][baseunits][baseunitelement])):
+                        z = Button()
+                        z.text = str(unit)
+                        z.enabled = False
+                        if layout[basegroups][baseunits][baseunitelement][unit] == "X":
+                            z.background_color = (0, 0, 0, 0)
+                            z.text = ""
+                        elif layout[basegroups][baseunits][baseunitelement][unit] == "A":
+                            r = 1
+                            g = 0
+                            b = 1
+                            z.background_color = (r, g, b, 1)
+                            z.text = "A"
+                        else:
+                            r = 1
+                            g = 1
+                            b = 0
+                            z.background_color = (r, g, b, 1)
+                            z.text = "I"
+                        innerLayout.padding = 3
+                        innerLayout.add_widget(z)
             outerLayout.add_widget(innerLayout)
         self.root.ids.layoutarea.add_widget(outerLayout)
 
