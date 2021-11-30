@@ -4,16 +4,12 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 import generate
-import Model.BaseUnit
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-from kivy.graphics.vertex_instructions import Line
-from kivy.graphics import *
 import threading
-import random
 
 
-# TODO Visio diagram!
+# TODO Visio diagram
 # TODO Unit test
 # TODO Futási idő diagram
 
@@ -113,9 +109,8 @@ class WindowApp(App):
                     for unit in range(len(layout[basegroups][baseunits][baseunitelement])):
                         z = Button()
                         z.text = str(unit)
-                        z.enabled = False
                         if layout[basegroups][baseunits][baseunitelement][unit] == "X":
-                            z.background_color = (0, 0, 0, 0)
+                            z.background_color = (0, 0, 1, 1)
                             z.text = ""
                         elif layout[basegroups][baseunits][baseunitelement][unit] == "A":
                             r = 1

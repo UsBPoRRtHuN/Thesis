@@ -4,7 +4,6 @@ import parseConfigs
 import layout
 
 
-# TODO BaseUnitok adatait kiolvasni jsonból. Ne crasheljen tőle az egész.
 
 
 class Generate:
