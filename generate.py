@@ -9,7 +9,7 @@ import layout
 class Generate:
     # Default values
     area = 8000
-    levels = 4
+    levels = 10
     noOfLayouts = 10
     noOfBaseGroups = 5
     baseGroupList = []
