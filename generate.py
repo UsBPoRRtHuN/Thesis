@@ -33,13 +33,11 @@ class Generate:
         return self.layoutList[num]
 
     def generateLayouts(self):
-        print(self.baseGroupList)
-        for layouts in self.baseGroupList[int(self.noOfBaseGroups) - 2]:
+        for layouts in list(self.baseGroupList[int(self.noOfBaseGroups) - 2]):
             for variations in self.allVariations:
-                helper = layouts
-                lay = layout.Layout(layouts, variations)
-                lay.getLayout()
-                print(self.baseGroupList)
+                helper = list(layouts)
+                lay = layout.Layout()
+                lay.getLayout(helper, variations)
                 self.layoutList.append(lay)
 
     def examineCompatibility(self):
