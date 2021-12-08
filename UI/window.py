@@ -100,19 +100,19 @@ class WindowApp(App):
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
         num = int(self.root.ids.currentLayoutLabel.text) - 1
         outerLayout = GridLayout()
-        outerLayout.cols = int(len(layout))
-        for basegroups in range(len(layout)):
+        outerLayout.cols = int(len(layout.Space))
+        for basegroups in range(len(layout.Space)):
             innerLayout = GridLayout()
             innerLayout.cols = 4
-            for baseunits in range(len(layout[basegroups])):
-                for baseunitelement in range(len(layout[basegroups][baseunits])):
-                    for unit in range(len(layout[basegroups][baseunits][baseunitelement])):
+            for baseunits in range(len(layout.Space[basegroups])):
+                for baseunitelement in range(len(layout.Space[basegroups][baseunits])):
+                    for unit in range(len(layout.Space[basegroups][baseunits][baseunitelement])):
                         z = Button()
                         z.text = str(unit)
-                        if layout[basegroups][baseunits][baseunitelement][unit] == "X":
+                        if layout.Space[basegroups][baseunits][baseunitelement][unit] == "X":
                             z.background_color = (0, 0, 1, 1)
                             z.text = ""
-                        elif layout[basegroups][baseunits][baseunitelement][unit] == "A":
+                        elif layout.Space[basegroups][baseunits][baseunitelement][unit] == "A":
                             r = 1
                             g = 0
                             b = 1

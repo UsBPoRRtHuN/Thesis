@@ -1,26 +1,30 @@
+import itertools
+
 from Model import BaseGroup
 from Model.BaseUnit import BaseUnit
 import parseConfigs
 import layout
 
 
+# TODO NoOFLayouts
 
 
 class Generate:
     # Default values
     area = 8000
     levels = 10
-    noOfLayouts = 10
+    noOfLayouts = 100
     noOfBaseGroups = 5
     baseGroupList = []
     baseUnitList = []
     layoutList = []
     matchingBorders = {}
+    allVariations = []
 
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
-        self.generateBorders(self)
+        self.examineCompatibility(self)
         self.generateLayouts(self)
 
     def getLayout(self, num):
@@ -29,16 +33,14 @@ class Generate:
         return self.layoutList[num]
 
     def generateLayouts(self):
-        lay = layout.Layout(self.baseUnitList, self.matchingBorders, self.noOfLayouts, self.baseGroupList,
-                            self.noOfBaseGroups)
-        lay.getLayouts()
-        self.layoutList = lay.giveLayoutList()
-
-    def generateBorders(self):
-        self.examineCompatibility(self)
-        currentNoOfGroupLayoutLength = (len(self.baseGroupList[int(self.noOfBaseGroups - 2)]))
-        self.noOfLayouts = (len(self.matchingBorders) * currentNoOfGroupLayoutLength) + (
-                len(self.baseUnitList) * currentNoOfGroupLayoutLength)  # ez még vszeg hibás érték
+        print(self.baseGroupList)
+        for layouts in self.baseGroupList[int(self.noOfBaseGroups) - 2]:
+            for variations in self.allVariations:
+                helper = layouts
+                lay = layout.Layout(layouts, variations)
+                lay.getLayout()
+                print(self.baseGroupList)
+                self.layoutList.append(lay)
 
     def examineCompatibility(self):
         borders = []
@@ -109,6 +111,7 @@ class Generate:
 
     def calculate(self):
         self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
+        self.allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
