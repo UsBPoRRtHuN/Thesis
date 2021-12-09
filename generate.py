@@ -6,9 +6,6 @@ import parseConfigs
 import layout
 
 
-# TODO NoOFLayouts
-
-
 class Generate:
     # Default values
     area = 8000
@@ -20,6 +17,8 @@ class Generate:
     layoutList = []
     matchingBorders = {}
     allVariations = []
+    ratioMax = 0.65
+    ratioMin = 0.35
 
     def init(self):
         self.loadConfigs(self)
@@ -109,7 +108,32 @@ class Generate:
 
     def calculate(self):
         self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
-        self.allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
+        allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
+        allVariationsFiltered = []
+        for variations in allVariations:
+            I = 0
+            A = 0
+            for variationsvariation in variations:
+                for variationvariationvariation in variationsvariation:
+                    for variationvariationvariationvariation in variationvariationvariation:
+                        if variationvariationvariationvariation == "I":
+                            I += 1
+                        if variationvariationvariationvariation == "A":
+                            A += 1
+            if A == 0:
+                ratioA = 0
+                ratioI = 1
+            if I == 0:
+                ratioA = 1
+                ratioI = 0
+            if A != 0 and I != 0:
+                total = A + I
+                ratioA = I / total
+                ratioI = A / total
+            if float(self.ratioMax) >= ratioA >= float(self.ratioMin) and float(self.ratioMax) >= ratioI >= float(self.ratioMin):
+                allVariationsFiltered.append(variations)
+        self.allVariations = allVariationsFiltered
+        self.noOfLayouts = len(self.allVariations)
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()

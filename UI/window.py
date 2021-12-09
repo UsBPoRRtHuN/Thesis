@@ -33,13 +33,21 @@ class WindowApp(App):
         if (togglebutton.state == "down"):
             self.root.ids.AreaInput.disabled = 0
             self.root.ids.LevelsInput.disabled = 0
+            self.root.ids.RatioMaxInput.disabled = 0
+            self.root.ids.RatioMinInput.disabled = 0
             self.root.ids.AreaInput.opacity = 1
             self.root.ids.LevelsInput.opacity = 1
+            self.root.ids.RatioMaxInput.opacity = 1
+            self.root.ids.RatioMinInput.opacity = 1
         else:
             self.root.ids.AreaInput.disabled = 1
             self.root.ids.LevelsInput.disabled = 1
+            self.root.ids.RatioMaxInput.disabled = 1
+            self.root.ids.RatioMinInput.disabled = 1
             self.root.ids.AreaInput.opacity = 0
             self.root.ids.LevelsInput.opacity = 0
+            self.root.ids.RatioMaxInput.opacity = 0
+            self.root.ids.RatioMinInput.opacity = 0
 
     def areavalidate(self, areatext):
         if int(areatext.text) > self.maxArea:
@@ -77,6 +85,12 @@ class WindowApp(App):
         else:
             self.gen.levels = levelstext.text
 
+    def ratioMaxValidate(self, ratioMaxText):
+        self.gen.ratioMax = ratioMaxText.text
+
+    def ratioMinValidate(self, ratioMinText):
+        self.gen.ratioMin = ratioMinText.text
+
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
             self.root.ids.layoutarea.clear_widgets()
@@ -97,8 +111,9 @@ class WindowApp(App):
         num = self.root.ids.layoutarea.page
         layout = self.gen.getLayout(self.gen, num)
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
-        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1)
-        num = int(self.root.ids.currentLayoutLabel.text) - 1
+        self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1) + " \\ " + str(
+            self.noOfLayoutsCurrently)
+        # num = int(self.root.ids.layoutarea.page)
         outerLayout = GridLayout()
         outerLayout.cols = int(len(layout.Space))
         for basegroups in range(len(layout.Space)):
