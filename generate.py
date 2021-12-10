@@ -25,6 +25,7 @@ class Generate:
         self.calculate(self)
         self.examineCompatibility(self)
         self.generateLayouts(self)
+        print(self.matchingBorders)
 
     def getLayout(self, num):
         if not self.layoutList:
@@ -130,7 +131,7 @@ class Generate:
                 total = A + I
                 ratioA = I / total
                 ratioI = A / total
-            if float(self.ratioMax) >= ratioA >= float(self.ratioMin) and float(self.ratioMax) >= ratioI >= float(self.ratioMin):
+            if self.ratioMax >= ratioA >= self.ratioMin and self.ratioMax >= ratioI >= self.ratioMin:
                 allVariationsFiltered.append(variations)
         self.allVariations = allVariationsFiltered
         self.noOfLayouts = len(self.allVariations)

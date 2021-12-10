@@ -1,3 +1,4 @@
+from kivy.animation import Animation
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
@@ -86,10 +87,10 @@ class WindowApp(App):
             self.gen.levels = levelstext.text
 
     def ratioMaxValidate(self, ratioMaxText):
-        self.gen.ratioMax = ratioMaxText.text
+        self.gen.ratioMax = float(ratioMaxText.text)/100
 
     def ratioMinValidate(self, ratioMinText):
-        self.gen.ratioMin = ratioMinText.text
+        self.gen.ratioMin = float(ratioMinText.text)/100
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
@@ -113,7 +114,6 @@ class WindowApp(App):
         self.noOfLayoutsCurrently = self.gen.noOfLayouts
         self.root.ids.currentLayoutLabel.text = str(self.root.ids.layoutarea.page + 1) + " \\ " + str(
             self.noOfLayoutsCurrently)
-        # num = int(self.root.ids.layoutarea.page)
         outerLayout = GridLayout()
         outerLayout.cols = int(len(layout.Space))
         for basegroups in range(len(layout.Space)):
@@ -143,7 +143,6 @@ class WindowApp(App):
                         innerLayout.add_widget(z)
             outerLayout.add_widget(innerLayout)
         self.root.ids.layoutarea.add_widget(outerLayout)
-
 
 def create_window():
     WindowApp().run()
