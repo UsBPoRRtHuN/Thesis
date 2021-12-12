@@ -39,6 +39,7 @@ class Generate:
                 lay = layout.Layout()
                 lay.getLayout(helper, variations)
                 self.layoutList.append(lay)
+        self.noOfLayouts = len(self.layoutList)
 
     def examineCompatibility(self):
         borders = []
@@ -111,6 +112,7 @@ class Generate:
         self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
         allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
         allVariationsFiltered = []
+        newList = []
         for variations in allVariations:
             I = 0
             A = 0
@@ -135,49 +137,39 @@ class Generate:
                 allVariationsFiltered.append(variations)
         self.checkExteriorSides(self, allVariationsFiltered)
         self.checkInteriorOfficeLength(self, allVariationsFiltered)
-        self.checkAtrium(self, allVariationsFiltered)
-        self.allVariations = allVariationsFiltered
+        newList = self.checkAtrium(self, allVariationsFiltered)
+        self.allVariations = newList
         self.noOfLayouts = len(self.allVariations)
 
     def checkAtrium(self, allVariationsFiltered):
 
+        newList = []
         for variations in allVariationsFiltered:
-            atriumPresent = False
-            atrium = True
-            atriumLast = False
+            OfficeComparer = []
+            lastRow = []
             helper = []
-
-            for variationsvariations in variations:
-                for variationsvariationsvariations in variationsvariations:
-                    helper.append(variationsvariationsvariations)
-
-            for element in helper[-1]:
+            atriumBefore = False
+            atriumAfter = False
+            atriumLast = False
+            atriumBlocked = False
+            for groups in variations:
+                for groupelements in groups:
+                    helper.append(groupelements)
+            lastRow = helper[-1]
+            for i in range(len(groups)):
+                OfficeComparer.append("I")
+            for element in lastRow:
                 if element == "A":
                     atriumLast = True
-
-            for variationsvariations in variations:
-                fullOfficeComparer = []
-                fullAtriumComparer = []
-                for i in range (len(variationsvariations)):
-                    fullOfficeComparer.append("I")
-                    fullAtriumComparer.append("A")
-
-                for variationsvariationsvariations in variationsvariations:
-                    for variationsvariationsvariationsvariations in variationsvariationsvariations:
-
-                        if variationsvariationsvariationsvariations == 'A':
-                            atriumPresent = True
-
-                    if variationsvariationsvariations == fullOfficeComparer and atriumPresent:
-                        atrium = False
-
-            if atriumLast is True:
-                allVariationsFiltered.remove(variations)
-            else:
-                print(helper[-1])
-
-
-
+            for groups in helper:
+                for groupelements in groups:
+                    if groupelements == "A":
+                        atriumBefore = True
+                if groups == OfficeComparer and (atriumBefore is True or atriumLast is True):
+                    atriumBlocked = True
+            if atriumBlocked is not True:
+                newList.append(variations)
+        return newList
 
     def checkExteriorSides(self, allVariationsFiltered):
         for variations in allVariationsFiltered:
