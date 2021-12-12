@@ -1,3 +1,4 @@
+import copy
 import itertools
 
 from Model import BaseGroup
@@ -17,15 +18,14 @@ class Generate:
     layoutList = []
     matchingBorders = {}
     allVariations = []
-    ratioMax = 0.65
-    ratioMin = 0.35
+    ratioMax = 100
+    ratioMin = 0
 
     def init(self):
         self.loadConfigs(self)
         self.calculate(self)
         self.examineCompatibility(self)
         self.generateLayouts(self)
-        print(self.matchingBorders)
 
     def getLayout(self, num):
         if not self.layoutList:
@@ -133,8 +133,68 @@ class Generate:
                 ratioI = A / total
             if self.ratioMax >= ratioA >= self.ratioMin and self.ratioMax >= ratioI >= self.ratioMin:
                 allVariationsFiltered.append(variations)
+        self.checkExteriorSides(self, allVariationsFiltered)
+        self.checkInteriorOfficeLength(self, allVariationsFiltered)
+        self.checkAtrium(self, allVariationsFiltered)
         self.allVariations = allVariationsFiltered
         self.noOfLayouts = len(self.allVariations)
+
+    def checkAtrium(self, allVariationsFiltered):
+
+        for variations in allVariationsFiltered:
+            atriumPresent = False
+            atrium = True
+            atriumLast = False
+            helper = []
+
+            for variationsvariations in variations:
+                for variationsvariationsvariations in variationsvariations:
+                    helper.append(variationsvariationsvariations)
+
+            for element in helper[-1]:
+                if element == "A":
+                    atriumLast = True
+
+            for variationsvariations in variations:
+                fullOfficeComparer = []
+                fullAtriumComparer = []
+                for i in range (len(variationsvariations)):
+                    fullOfficeComparer.append("I")
+                    fullAtriumComparer.append("A")
+
+                for variationsvariationsvariations in variationsvariations:
+                    for variationsvariationsvariationsvariations in variationsvariationsvariations:
+
+                        if variationsvariationsvariationsvariations == 'A':
+                            atriumPresent = True
+
+                    if variationsvariationsvariations == fullOfficeComparer and atriumPresent:
+                        atrium = False
+
+            if atriumLast is True:
+                allVariationsFiltered.remove(variations)
+            else:
+                print(helper[-1])
+
+
+
+
+    def checkExteriorSides(self, allVariationsFiltered):
+        for variations in allVariationsFiltered:
+            valid = 0
+            for variationsvariations in variations:
+                for variationsvariationsvariations in variationsvariations:
+                    if variationsvariationsvariations[0] == "I" or variationsvariationsvariations[-1] == "I":
+                        valid = 1
+            if valid == 0:
+                allVariationsFiltered.remove(variations)
+
+    def checkInteriorOfficeLength(self, allVariationsFiltered):
+        copyList = copy.deepcopy(allVariationsFiltered)
+        for variations in copyList:
+            for variationsvariations in variations:
+                for variationsvariationsvariations in variationsvariations:
+                    pass
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
