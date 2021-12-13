@@ -9,8 +9,8 @@ import layout
 
 class Generate:
     # Default values
-    area = 8000
-    levels = 10
+    area = 7000
+    levels = 5
     noOfLayouts = 100
     noOfBaseGroups = 5
     baseGroupList = []
@@ -20,6 +20,7 @@ class Generate:
     allVariations = []
     ratioMax = 100
     ratioMin = 0
+    maxOfficeLength = 4
 
     def init(self):
         self.loadConfigs(self)
@@ -108,11 +109,8 @@ class Generate:
             right["right"] = rightList
             finalBorders[i] = top, right, down, left
 
-    def calculate(self):
-        self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
-        allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
+    def checkRatio(self, allVariations):
         allVariationsFiltered = []
-        newList = []
         for variations in allVariations:
             I = 0
             A = 0
@@ -135,14 +133,19 @@ class Generate:
                 ratioI = A / total
             if self.ratioMax >= ratioA >= self.ratioMin and self.ratioMax >= ratioI >= self.ratioMin:
                 allVariationsFiltered.append(variations)
-        self.checkExteriorSides(self, allVariationsFiltered)
-        self.checkInteriorOfficeLength(self, allVariationsFiltered)
-        newList = self.checkAtrium(self, allVariationsFiltered)
-        self.allVariations = newList
+        return allVariationsFiltered
+
+    def calculate(self):
+        self.noOfBaseGroups = (int(self.area) / (int(BaseUnit.size) * int(BaseGroup.groupSize))) / int(self.levels)
+        allVariations = list(itertools.product(self.baseUnitList, repeat=int(self.noOfBaseGroups)))
+        allVariationsFiltered = self.checkRatio(self, allVariations)
+        allVariationsFilteredEx = self.checkExteriorSides(self, allVariationsFiltered)
+        allVariationsFilteredExAtr = self.checkAtrium(self, allVariationsFilteredEx)
+        allVariationsFilteredExAtrInt = self.checkInteriorOfficeLength(self, allVariationsFilteredExAtr)
+        self.allVariations = allVariationsFilteredExAtrInt
         self.noOfLayouts = len(self.allVariations)
 
     def checkAtrium(self, allVariationsFiltered):
-
         newList = []
         for variations in allVariationsFiltered:
             OfficeComparer = []
@@ -172,21 +175,47 @@ class Generate:
         return newList
 
     def checkExteriorSides(self, allVariationsFiltered):
+        allVariationsExteriorFiltered = []
         for variations in allVariationsFiltered:
-            valid = 0
+            valid = False
             for variationsvariations in variations:
                 for variationsvariationsvariations in variationsvariations:
                     if variationsvariationsvariations[0] == "I" or variationsvariationsvariations[-1] == "I":
-                        valid = 1
-            if valid == 0:
-                allVariationsFiltered.remove(variations)
+                        valid = True
+            if valid == False:
+                pass
+            if valid is True:
+                allVariationsExteriorFiltered.append(variations)
+        return allVariationsExteriorFiltered
 
     def checkInteriorOfficeLength(self, allVariationsFiltered):
-        copyList = copy.deepcopy(allVariationsFiltered)
-        for variations in copyList:
-            for variationsvariations in variations:
-                for variationsvariationsvariations in variationsvariations:
-                    pass
+        newList = []
+        grouphelper = []
+        helper = []
+        collection = []
+        for variations in allVariationsFiltered:
+            valid = True
+            grouphelper = []
+            for groups in variations:
+                for groupelements in groups:
+                    grouphelper.append(groupelements[1:-1])
+            for i in range((len(groupelements[1:-1]))):
+                list = []
+                helperIterator = 0
+                for j in grouphelper:
+                    list.append(grouphelper[helperIterator][i])
+                    helperIterator += 1
+                offices = 0
+                for elements in list:
+                    if elements == "I":
+                        offices += 1
+                        if offices > self.maxOfficeLength:
+                            valid = False
+                    else:
+                        offices = 0
+            if valid is True:
+                newList.append(variations)
+        return newList
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
