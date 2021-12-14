@@ -36,10 +36,32 @@ class Generate:
     def generateLayouts(self):
         for layouts in list(self.baseGroupList[int(self.noOfBaseGroups) - 2]):
             for variations in self.allVariations:
-                helper = list(layouts)
-                lay = layout.Layout()
-                lay.getLayout(helper, variations)
-                self.layoutList.append(lay)
+                counter = 0
+                horizontal = False
+                helper = copy.deepcopy(layouts)
+                m = helper
+                rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
+                for rows in rez:
+                    if rows.count("O") > 1:
+                        horizontal = True
+                if horizontal is True:
+                    for i in range(len(helper)):
+                        counter = 0
+                        for j in range(len(helper[i])):
+                            if layouts[i][j] == "O":
+                                counter +=1
+                        if counter > 1:
+                            for j in range(len(helper[i])):
+                                if helper[i][j] == "O":
+                                    helper[i][j] = "H"
+                        print(helper[i])
+                print("")
+
+                if horizontal is True:
+                    lay = layout.Layout()
+                    lay.getLayout(layouts, variations)
+                    self.layoutList.append(lay)
+
         self.noOfLayouts = len(self.layoutList)
 
     def examineCompatibility(self):
@@ -201,10 +223,8 @@ class Generate:
                     grouphelper.append(groupelements[1:-1])
             for i in range((len(groupelements[1:-1]))):
                 list = []
-                helperIterator = 0
-                for j in grouphelper:
-                    list.append(grouphelper[helperIterator][i])
-                    helperIterator += 1
+                for j in range(len(grouphelper)):
+                    list.append(grouphelper[j][i])
                 offices = 0
                 for elements in list:
                     if elements == "I":
