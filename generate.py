@@ -44,10 +44,11 @@ class Generate:
                     if rows.count("O") > 1:
                         horizontal = True
                 if horizontal is True:
-                    self.checkHorizontal(self, layouts, variations)
-                    lay = layout.Layout()
-                    lay.getLayout(layouts, variations)
-                    self.layoutList.append(lay)
+                    horizontalApproved = self.checkHorizontal(self, layouts, variations)
+                    if horizontalApproved:
+                        lay = layout.Layout()
+                        lay.getLayout(layouts, horizontalApproved)
+                        self.layoutList.append(lay)
 
         self.noOfLayouts = len(self.layoutList)
 
@@ -225,22 +226,24 @@ class Generate:
         return newList
 
     def checkHorizontal(self, layouts, variations):
-        csicska = 0
+        index = 0
         dict = {}
         helper = copy.deepcopy(layouts)
         allCounter = 0
         counterList = []
         counterListList = []
-
+        transposedVariation = []
+        wrapper = []
+        innerOfficeLength = True
+        atriumOK = True
         for i in range(len(layouts)):
             dict[i] = []
             for j in range(len(layouts[i])):
                 if layouts[i][j] == "O":
-                    dict[i].append(csicska)
-                    csicska += 1
+                    dict[i].append(index)
+                    index += 1
                 else:
                     dict[i].append("X")
-
         m = dict
         rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
         for rows in rez:
@@ -256,7 +259,42 @@ class Generate:
             if counter > 1:
                 counterListList.append(counterList)
                 counterList = []
-        print(counterListList)
+        for items in counterListList:
+            transposedVariation = []
+            print(items)
+            for index in items:
+                m = variations[index]
+                rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
+                transposedVariation.append(rez)
+            atriumOK = self.checkHorizontalAtrium(self,transposedVariation)
+            if atriumOK is True:
+                return variations
+
+    def checkHorizontalAtrium(self, variations):
+        OfficeComparer = []
+        lastRow = []
+        helper = []
+        atriumBefore = False
+        atriumAfter = False
+        atriumLast = False
+        atriumOK = True
+
+        for groups in variations:
+            for groupelements in groups:
+                helper.append(groupelements)
+        lastRow = helper[-1]
+        for i in range(len(groups)):
+            OfficeComparer.append("I")
+        for element in lastRow:
+            if element == "A":
+                atriumLast = True
+        for groups in helper:
+            for groupelements in groups:
+                if groupelements == "A":
+                    atriumBefore = True
+            if groups == OfficeComparer and (atriumBefore is True or atriumLast is True):
+                atriumOK = False
+        return atriumOK
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
