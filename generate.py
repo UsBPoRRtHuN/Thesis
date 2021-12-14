@@ -225,38 +225,38 @@ class Generate:
         return newList
 
     def checkHorizontal(self, layouts, variations):
-        variationsCopy = copy.deepcopy(variations)
+        csicska = 0
+        dict = {}
         helper = copy.deepcopy(layouts)
         allCounter = 0
         counterList = []
         counterListList = []
-        m = helper
+
+        for i in range(len(layouts)):
+            dict[i] = []
+            for j in range(len(layouts[i])):
+                if layouts[i][j] == "O":
+                    dict[i].append(csicska)
+                    csicska += 1
+                else:
+                    dict[i].append("X")
+
+        m = dict
         rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
         for rows in rez:
             counter = 0
             for elements in rows:
-                if elements == "O":
-                    counterList.append(allCounter)
-                    counter+=1
-                    allCounter+=1
+                if isinstance(elements, int):
+                    counterList.append(elements)
+                    counter += 1
             if counter == 0:
                 pass
             if counter == 1:
-                counterList.remove(allCounter-1)
+                counterList.remove(counterList[-1])
             if counter > 1:
                 counterListList.append(counterList)
                 counterList = []
-
-        m = variationsCopy
-        rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
-        print("")
-        for rows in rez:
-            print(rows)
-
-
-
-
-
+        print(counterListList)
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
