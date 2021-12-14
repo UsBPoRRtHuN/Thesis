@@ -9,7 +9,7 @@ import layout
 
 class Generate:
     # Default values
-    area = 7000
+    area = 9000
     levels = 5
     noOfLayouts = 100
     noOfBaseGroups = 5
@@ -36,7 +36,6 @@ class Generate:
     def generateLayouts(self):
         for layouts in list(self.baseGroupList[int(self.noOfBaseGroups) - 2]):
             for variations in self.allVariations:
-                counter = 0
                 horizontal = False
                 helper = copy.deepcopy(layouts)
                 m = helper
@@ -45,19 +44,7 @@ class Generate:
                     if rows.count("O") > 1:
                         horizontal = True
                 if horizontal is True:
-                    for i in range(len(helper)):
-                        counter = 0
-                        for j in range(len(helper[i])):
-                            if layouts[i][j] == "O":
-                                counter +=1
-                        if counter > 1:
-                            for j in range(len(helper[i])):
-                                if helper[i][j] == "O":
-                                    helper[i][j] = "H"
-                        print(helper[i])
-                print("")
-
-                if horizontal is True:
+                    self.checkHorizontal(self, layouts, variations)
                     lay = layout.Layout()
                     lay.getLayout(layouts, variations)
                     self.layoutList.append(lay)
@@ -236,6 +223,40 @@ class Generate:
             if valid is True:
                 newList.append(variations)
         return newList
+
+    def checkHorizontal(self, layouts, variations):
+        variationsCopy = copy.deepcopy(variations)
+        helper = copy.deepcopy(layouts)
+        allCounter = 0
+        counterList = []
+        counterListList = []
+        m = helper
+        rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
+        for rows in rez:
+            counter = 0
+            for elements in rows:
+                if elements == "O":
+                    counterList.append(allCounter)
+                    counter+=1
+                    allCounter+=1
+            if counter == 0:
+                pass
+            if counter == 1:
+                counterList.remove(allCounter-1)
+            if counter > 1:
+                counterListList.append(counterList)
+                counterList = []
+
+        m = variationsCopy
+        rez = [[m[j][i] for j in range(len(m))] for i in range(len(m[0]))]
+        print("")
+        for rows in rez:
+            print(rows)
+
+
+
+
+
 
     def loadConfigs(self):
         self.baseGroupList = parseConfigs.parseBaseGroupJson()
