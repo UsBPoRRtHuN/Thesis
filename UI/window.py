@@ -1,6 +1,7 @@
 from kivy.animation import Animation
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -15,15 +16,22 @@ import threading
 # TODO Futási idő diagram
 
 
+class MenuScreen(Screen):
+    pass
+
+
+class SettingsScreen(Screen):
+    pass
+
+
 class Window(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.height = 599
-
     pass
 
 
-class WindowApp(App):
+class Thesis(App):
     gen = generate.Generate
     noOfLayoutsCurrently = 0
     maxArea = 20000
@@ -87,10 +95,10 @@ class WindowApp(App):
             self.gen.levels = levelstext.text
 
     def ratioMaxValidate(self, ratioMaxText):
-        self.gen.ratioMax = float(ratioMaxText.text)/100
+        self.gen.ratioMax = float(ratioMaxText.text) / 100
 
     def ratioMinValidate(self, ratioMinText):
-        self.gen.ratioMin = float(ratioMinText.text)/100
+        self.gen.ratioMin = float(ratioMinText.text) / 100
 
     def layoutBack(self, layoutarea):
         if layoutarea.page != 0:
@@ -143,5 +151,6 @@ class WindowApp(App):
             outerLayout.add_widget(innerLayout)
         self.root.ids.layoutarea.add_widget(outerLayout)
 
+
 def create_window():
-    WindowApp().run()
+    Thesis().run()
